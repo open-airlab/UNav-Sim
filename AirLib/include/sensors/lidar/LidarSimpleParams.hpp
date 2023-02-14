@@ -70,7 +70,7 @@ namespace airlib
             // By default, for multirotors the lidars FOV point downwards;
             // for cars, the lidars FOV is more forward facing.
             if (std::isnan(vertical_FOV_upper)) {
-                if (simmode_name == AirSimSettings::kSimModeTypeMultirotor)
+                if (simmode_name == AirSimSettings::kSimModeTypeMultirotor || simmode_name == AirSimSettings::kSimModeTypeRov)
                     vertical_FOV_upper = -15;
                 else
                     vertical_FOV_upper = +10;
@@ -78,7 +78,7 @@ namespace airlib
 
             vertical_FOV_lower = settings_json.getFloat("VerticalFOVLower", Utils::nan<float>());
             if (std::isnan(vertical_FOV_lower)) {
-                if (simmode_name == AirSimSettings::kSimModeTypeMultirotor)
+                if (simmode_name == AirSimSettings::kSimModeTypeMultirotor || simmode_name == AirSimSettings::kSimModeTypeRov)
                     vertical_FOV_lower = -45;
                 else
                     vertical_FOV_lower = -10;
@@ -95,7 +95,7 @@ namespace airlib
             if (std::isnan(relative_pose.position.y()))
                 relative_pose.position.y() = 0;
             if (std::isnan(relative_pose.position.z())) {
-                if (simmode_name == AirSimSettings::kSimModeTypeMultirotor)
+                if (simmode_name == AirSimSettings::kSimModeTypeMultirotor || simmode_name == AirSimSettings::kSimModeTypeRov)
                     relative_pose.position.z() = 0;
                 else
                     relative_pose.position.z() = -1; // a little bit above for cars

@@ -9,7 +9,7 @@ STRICT_MODE_OFF
 #include "rpc/rpc_error.h"
 STRICT_MODE_ON
 
-#include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
+#include "vehicles/rov/api/RovRpcLibClient.hpp"
 #include "common/common_utils/FileSystem.hpp"
 #include <iostream>
 #include <chrono>
@@ -18,22 +18,24 @@ int main()
 {
     using namespace msr::airlib;
 
-    msr::airlib::MultirotorRpcLibClient client;
+    msr::airlib::RovRpcLibClient client;
+     
     typedef ImageCaptureBase::ImageRequest ImageRequest;
     typedef ImageCaptureBase::ImageResponse ImageResponse;
     typedef ImageCaptureBase::ImageType ImageType;
     typedef common_utils::FileSystem FileSystem;
 
+    /*
     try {
         client.confirmConnection();
 
         std::cout << "Press Enter to get FPV image" << std::endl;
         std::cin.get();
-        const std::vector<ImageRequest> request{ ImageRequest("0", ImageType::Scene), ImageRequest("1", ImageType::DepthPlanar, true) };
-        const std::vector<ImageResponse>& response = client.simGetImages(request);
+        vector<ImageRequest> request = { ImageRequest("0", ImageType::Scene), ImageRequest("1", ImageType::DepthPlanar, true) };
+        const vector<ImageResponse>& response = client.simGetImages(request);
         std::cout << "# of images received: " << response.size() << std::endl;
 
-        if (response.size()) {
+        if (response.size() > 0) {
             std::cout << "Enter path with ending separator to save images (leave empty for no save)" << std::endl;
             std::string path;
             std::getline(std::cin, path);
@@ -55,9 +57,9 @@ int main()
                 }
             }
         }
-
-        std::cout << "Press Enter to arm the drone" << std::endl;
-        std::cin.get();
+   */
+   
+  
 
         client.enableApiControl(true);
         client.armDisarm(true);
@@ -92,8 +94,7 @@ int main()
                   << "magnetometer_data.magnetic_field_body \t" << magnetometer_data.magnetic_field_body << std::endl;
         // << "magnetometer_data.magnetic_field_covariance" << magnetometer_data.magnetic_field_covariance // not implemented in sensor
 
-        std::cout << "Press Enter to takeoff" << std::endl;
-        std::cin.get();
+
         float takeoff_timeout = 5;
         client.takeoffAsync(takeoff_timeout)->waitOnLastTask();
 
@@ -102,19 +103,23 @@ int main()
         std::this_thread::sleep_for(std::chrono::duration<double>(5));
         client.hoverAsync()->waitOnLastTask();
 
-        std::cout << "Press Enter to fly in a 10m box pattern at 3 m/s velocity" << std::endl;
-        std::cin.get();
+
         // moveByVelocityZ is an offboard operation, so we need to set offboard mode.
         client.enableApiControl(true);
 
-        auto position = client.getMultirotorState().getPosition();
-        float z = position.z(); // current position (NED coordinate system).
-        constexpr float speed = 3.0f;
-        constexpr float size = 10.0f;
-        constexpr float duration = size / speed;
-        DrivetrainType drivetrain = DrivetrainType::ForwardOnly;
+        auto position = client.getRovState().getPosition();
+        //float z = position.z(); // current position (NED coordinate system).
+        const float speed = 3.0f;
+        const float size = 10.0f;
+        const float duration = size / speed;
+       // DrivetrainType drivetrain = DrivetrainType::ForwardOnly;
         YawMode yaw_mode(true, 0);
-
+       
+        vector<float> vect{ 0.1f, 0.1f, 0.1f, 0.1f, 0.05f, 0.05f, 0.05f, 0.05f };
+        while (true) {
+            client.moveByMotorPWMsAsync(vect, duration);
+        }
+        /*
         std::cout << "moveByVelocityZ(" << speed << ", 0, " << z << "," << duration << ")" << std::endl;
         client.moveByVelocityZAsync(speed, 0, z, duration, drivetrain, yaw_mode);
         std::this_thread::sleep_for(std::chrono::duration<double>(duration));
@@ -127,7 +132,7 @@ int main()
         std::cout << "moveByVelocityZ(0, " << -speed << "," << z << "," << duration << ")" << std::endl;
         client.moveByVelocityZAsync(0, -speed, z, duration, drivetrain, yaw_mode);
         std::this_thread::sleep_for(std::chrono::duration<double>(duration));
-
+        *
         client.hoverAsync()->waitOnLastTask();
 
         std::cout << "Press Enter to land" << std::endl;
@@ -139,10 +144,10 @@ int main()
         client.armDisarm(false);
     }
     catch (rpc::rpc_error& e) {
-        const auto msg = e.get_error().as<std::string>();
+        std::string msg = e.get_error().as<std::string>();
         std::cout << "Exception raised by the API, something went wrong." << std::endl
                   << msg << std::endl;
     }
-
+       */
     return 0;
 }

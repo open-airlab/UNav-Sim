@@ -281,25 +281,118 @@ namespace airlib
             //note that angular velocity, acceleration, torque are already in body frame
 
             Wrench wrench = Wrench::zero();
-            const real_T air_density = body.getEnvironment().getState().air_density;
+            // const real_T water_density = 1000.0;
+            // const real_T air_density = body.getEnvironment().getState().air_density;
 
             // Use relative velocity of the body wrt wind
-            const Vector3r relative_vel = linear_vel - wind_world;
+            const Vector3r relative_vel = linear_vel - wind_world; //TODO: Change wind to current
             const Vector3r linear_vel_body = VectorMath::transformToBodyFrame(relative_vel, orientation);
+
+            const Vector3r added_mass_linear = body.getAddedMassLinear();
+            const Vector3r added_mass_angular = body.getAddedMassAngular();
+            const Vector3r damping_linear = body.getDampingLinear();
+            const Vector3r damping_angular = body.getDampingAngular();
+            const Vector3r damping_linear_q = body.getDampingLinearQ();
+            const Vector3r damping_angular_q = body.getDampingAngularQ();
+            const Matrix3x3r inertia = body.getInertia();
+
+            // const real_T u_abs = pow((linear_vel_body.x() * linear_vel_body.x()), 0.5);
+
+            const real_T u_abs = static_cast<real_T>(pow((linear_vel_body.x() * linear_vel_body.x()), 0.5));
+            const real_T v_abs = static_cast<real_T>(pow((linear_vel_body.y() * linear_vel_body.y()), 0.5));
+            const real_T w_abs = static_cast<real_T>(pow((linear_vel_body.z() * linear_vel_body.z()), 0.5));
+
+            const real_T p_abs = static_cast<real_T>(pow((angular_vel_body.x() * angular_vel_body.x()), 0.5));
+            const real_T q_abs = static_cast<real_T>(pow((angular_vel_body.y() * angular_vel_body.y()), 0.5));
+            const real_T r_abs = static_cast<real_T>(pow((angular_vel_body.z() * angular_vel_body.z()), 0.5));
+
+            const Matrix3x3r inertia_i = body.getInertiaInv();
+            //const real_T Ix = inertia_i(0, 0);
+
+            //const real_T dampingx = damping_linear.x();
+            //const real_T Ix = inertia(0,0);
+            //const real_T Iy = inertia(1,1);
+            //const real_T Iz = inertia(2,2);
+
+            // reference for forces: https://liu.diva-portal.org/smash/get/diva2:939494/FULLTEXT01.pdf
+
+            const Vector3r drag_force = Vector3r(((damping_linear.x() + damping_linear_q.x() * u_abs) * linear_vel_body.x()),
+                                                 ((damping_linear.y() + damping_linear_q.y() * v_abs) * linear_vel_body.y()),
+                                                 ((damping_linear.z() + damping_linear_q.z() * w_abs) * linear_vel_body.z()));
+
+            const Vector3r coriolis_force = Vector3r((body.getMass() * linear_vel_body.z()) * angular_vel_body.y(),
+                                                     (-body.getMass() * linear_vel_body.z()) * angular_vel_body.x(),
+                                                     (body.getMass() * linear_vel_body.y()) * angular_vel_body.x() + (-body.getMass() * linear_vel_body.x()) * angular_vel_body.y());
+
+            const Vector3r coriolis_force_added_mass = Vector3r((body.getAddedMassLinear().z() * linear_vel_body.y()) * angular_vel_body.y(),
+                                                                (-body.getAddedMassLinear().z() * linear_vel_body.y()) * angular_vel_body.x() + (-body.getAddedMassLinear().z() * linear_vel_body.x()) * angular_vel_body.z(),
+                                                                (-body.getAddedMassLinear().y() * linear_vel_body.y()) * angular_vel_body.x() + (body.getAddedMassLinear().x() * linear_vel_body.x()) * angular_vel_body.y());
+
+            const Vector3r drag_moment = Vector3r((body.getDampingAngular().x() + body.getDampingAngularQ().x() * p_abs) * angular_vel_body.x(),
+                                                  (body.getDampingAngular().y() + body.getDampingAngularQ().y() * q_abs) * angular_vel_body.y(),
+                                                  (body.getDampingAngular().z() + body.getDampingAngularQ().z() * r_abs) * angular_vel_body.z());
+
+            const Vector3r coriolis_moment = Vector3r((body.getMass() * linear_vel_body.z()) * linear_vel_body.y() + (-body.getMass() * linear_vel_body.y()) * linear_vel_body.z() +
+                                                          (inertia(2, 2) * angular_vel_body.z()) * angular_vel_body.y() + (-inertia(1, 1) * angular_vel_body.y()) * angular_vel_body.z(),
+                                                      (-body.getMass() * linear_vel_body.z()) * linear_vel_body.x() + (body.getMass() * linear_vel_body.x()) * linear_vel_body.z() +
+                                                          (-inertia(2, 2) * angular_vel_body.z()) * angular_vel_body.x() + (inertia(0, 0) * angular_vel_body.x()) * angular_vel_body.z(),
+                                                      (body.getMass() * linear_vel_body.y()) * linear_vel_body.x() + (-body.getMass() * linear_vel_body.x()) * linear_vel_body.y() +
+                                                          (inertia(1, 1) * angular_vel_body.y()) * angular_vel_body.x() + (-inertia(0, 0) * angular_vel_body.x()) * angular_vel_body.y());
+
+            /*
+            const Vector3r coriolis_moment_added_mass = Vector3r((-body.getAddedMassLinear().z() * linear_vel_body.z()) *  linear_vel_body.y() + ( body.getAddedMassLinear().y() * linear_vel_body.y())* linear_vel_body.z() +
+                                                      (- body.getAddedMassAngular().z() * angular_vel_body.z())* angular_vel_body.y() + ( body.getAddedMassAngular().y() * angular_vel_body.y())* angular_vel_body.z() ,
+                                                     (body.getAddedMassLinear().z() * linear_vel_body.z()) *  linear_vel_body.x() + (-body.getAddedMassLinear().x() * linear_vel_body.x()) *  linear_vel_body.z() +
+                                                      ( body.getAddedMassAngular().z() * angular_vel_body.z())* angular_vel_body.x() +  ( -body.getAddedMassAngular().x() * angular_vel_body.x())* angular_vel_body.z(),
+                                                      (-body.getAddedMassLinear().y() * linear_vel_body.y()) *  linear_vel_body.x() + ( body.getAddedMassLinear().x() * linear_vel_body.x())* linear_vel_body.y() +
+                                                      (- body.getAddedMassAngular().y() * angular_vel_body.y())* angular_vel_body.x() + ( body.getAddedMassAngular().x() * angular_vel_body.x())* angular_vel_body.y() );                                                   
+
+
+
+                                                     // Check this one https://liu.diva-portal.org/smash/get/diva2:939494/FULLTEXT01.pdf
+
+            const Vector3r coriolis_moment = Vector3r( angular_vel_body.y()* angular_vel_body.z()*( body.getAddedMassLinear().y() - body.getAddedMassLinear().z()),
+                                                        angular_vel_body.z()* angular_vel_body.x()*( inertia(2, 2) - inertia(0, 0) ),
+                                                         angular_vel_body.y()* angular_vel_body.x()*( inertia(0, 0) - inertia(1, 1)  ) );   
+*/
+            const Vector3r coriolis_moment_added_mass = Vector3r((-body.getAddedMassLinear().z() * linear_vel_body.z()) * linear_vel_body.y() + (body.getAddedMassLinear().y() * linear_vel_body.y()) * linear_vel_body.z() +
+                                                                     (-body.getAddedMassAngular().z() * angular_vel_body.z()) * angular_vel_body.y() + (body.getAddedMassAngular().y() * angular_vel_body.y()) * angular_vel_body.z(),
+                                                                 (body.getAddedMassLinear().z() * linear_vel_body.z()) * linear_vel_body.x() + (-body.getAddedMassLinear().x() * linear_vel_body.x()) * linear_vel_body.z() +
+                                                                     (body.getAddedMassAngular().z() * angular_vel_body.z()) * angular_vel_body.x() + (-body.getAddedMassAngular().x() * angular_vel_body.x()) * angular_vel_body.z(),
+                                                                 (-body.getAddedMassLinear().y() * linear_vel_body.y()) * linear_vel_body.x() + (body.getAddedMassLinear().x() * linear_vel_body.x()) * linear_vel_body.y() +
+                                                                     (-body.getAddedMassAngular().y() * angular_vel_body.y()) * angular_vel_body.x() + (body.getAddedMassAngular().x() * angular_vel_body.x()) * angular_vel_body.y());
+
+            /*
+            const Vector3r coriolis_moment_added_mass = Vector3r( angular_vel_body.y()* angular_vel_body.z()*( inertia(1, 1) - inertia(2, 2)) +
+                                                                      asac                                                                             ,
+                                                        angular_vel_body.z()* angular_vel_body.x()*( inertia(2, 2) - inertia(0, 0))          +
+                                                                                                                                                  ,
+                                                         angular_vel_body.y()* angular_vel_body.x()*( inertia(0, 0) - inertia(1, 1)  ) );   
+ */
+            // Add all the force contributions
+            wrench.force = drag_force + coriolis_force + coriolis_force_added_mass;
+            //wrench.torque =  drag_moment + coriolis_moment;
+            wrench.torque = drag_moment + coriolis_moment + coriolis_moment_added_mass;
+            //wrench.torque = drag_moment - coriolis_moment;
+            /*  aerodynamics (airsim)
 
             for (uint vi = 0; vi < body.dragVertexCount(); ++vi) {
                 const auto& vertex = body.getDragVertex(vi);
                 const Vector3r vel_vertex = linear_vel_body + angular_vel_body.cross(vertex.getPosition());
                 const real_T vel_comp = vertex.getNormal().dot(vel_vertex);
                 //if vel_comp is -ve then we cull the face. If velocity too low then drag is not generated
+
+                
                 if (vel_comp > kDragMinVelocity) {
-                    const Vector3r drag_force = vertex.getNormal() * (-vertex.getDragFactor() * air_density * vel_comp * vel_comp);
+                    const Vector3r drag_force = vertex.getNormal() * (-vertex.getDragFactor() * water_density * vel_comp * vel_comp);
                     const Vector3r drag_torque = vertex.getPosition().cross(drag_force);
 
                     wrench.force += drag_force;
                     wrench.torque += drag_torque;
                 }
+                
             }
+            */
 
             //convert force to world frame, leave torque to local frame
             wrench.force = VectorMath::transformToWorldFrame(wrench.force, orientation);
@@ -322,7 +415,19 @@ namespace airlib
                 //add additional torque due to force applies farther than COG
                 // tau = r X F
                 wrench.torque += vertex.getPosition().cross(vertex_wrench.force);
+
+                //printing torque for debugging
+                //const Vector3r torque= wrench.torque;
+                //std::cout<<"torquex"<<torque.x();
+
+                //int count = count+1;
+                //if (count ==20)
             }
+
+            // add bouyancy restoring moment
+            float pitch, roll, yaw;
+            VectorMath::toEulerianAngle(orientation, pitch, roll, yaw);
+            wrench.torque -= 10.0 * body.getMass() * 9.81 * body.getOffZ() * Vector3r(sin(roll), sin(pitch), 0.0);
 
             //convert force to world frame, leave torque to local frame
             wrench.force = VectorMath::transformToWorldFrame(wrench.force, orientation);
@@ -364,11 +469,8 @@ namespace airlib
                 avg_angular = current.twist.angular + current.accelerations.angular * (0.5f * dt_real);
                 const Wrench drag_wrench = getDragWrench(body, current.pose.orientation, avg_linear, avg_angular, wind);
 
-                // ext_force is defined in world space
-                Wrench ext_force_wrench = Wrench::zero();
-                ext_force_wrench.force = ext_force;
-
-                next_wrench = body_wrench + drag_wrench + ext_force_wrench;
+                //const Wrench buoyancy_wrench = getDragWrench(body, current.pose.orientation, avg_linear, avg_angular, wind);
+                next_wrench = body_wrench + drag_wrench;
 
                 //Utils::log(Utils::stringf("B-WRN %s: ", VectorMath::toString(body_wrench.force).c_str()));
                 //Utils::log(Utils::stringf("D-WRN %s: ", VectorMath::toString(drag_wrench.force).c_str()));
@@ -376,7 +478,7 @@ namespace airlib
                 /************************* Update accelerations due to force and torque ************************/
                 //get new acceleration due to force - we'll use this acceleration in next time step
 
-                next.accelerations.linear = (next_wrench.force / body.getMass()) + body.getEnvironment().getState().gravity;
+                next.accelerations.linear = next_wrench.force / (body.getMass() + 9.0f);
             }
 
             if (body.isGrounded()) {

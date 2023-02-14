@@ -15,6 +15,8 @@
 #include <thread>
 #include <memory>
 
+using namespace msr::airlib;
+
 namespace msr
 {
 namespace airlib

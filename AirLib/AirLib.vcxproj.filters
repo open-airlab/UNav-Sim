@@ -339,6 +339,10 @@
     <ClInclude Include="include\vehicles\multirotor\api\MultirotorRpcLibServer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    
+    <ClInclude Include="include\vehicles\rov\api\RovRpcLibServer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\api\RpcLibAdaptorsBase.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -470,6 +474,10 @@
     <ClCompile Include="src\vehicles\multirotor\api\MultirotorRpcLibServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vehicles\rov\api\RovRpcLibServer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
     <ClCompile Include="src\vehicles\car\api\CarRpcLibClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -479,6 +487,11 @@
     <ClCompile Include="src\vehicles\multirotor\api\MultirotorRpcLibClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    
+    <ClCompile Include="src\vehicles\rov\api\RovRpcLibClient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    
     <ClCompile Include="src\api\RpcLibClientBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -486,6 +499,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vehicles\multirotor\api\MultirotorApiBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vehicles\rov\api\RovApiBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

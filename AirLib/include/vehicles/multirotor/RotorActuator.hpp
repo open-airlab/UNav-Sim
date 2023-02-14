@@ -121,9 +121,11 @@ namespace airlib
             output.control_signal_input = control_signal_filter.getInput();
             output.control_signal_filtered = control_signal_filter.getOutput();
             //see relationship of rotation speed with thrust: http://physics.stackexchange.com/a/32013/14061
-            output.speed = sqrt(output.control_signal_filtered * params.max_speed_square);
+            //output.speed = sqrt(output.control_signal_filtered * params.max_speed_square);
+            output.speed = output.control_signal_filtered * params.max_speed_square;
             output.thrust = output.control_signal_filtered * params.max_thrust;
-            output.torque_scaler = output.control_signal_filtered * params.max_torque * static_cast<int>(turning_direction);
+            //output.torque_scaler = output.control_signal_filtered * params.max_torque * static_cast<int>(turning_direction);
+            output.torque_scaler = real_T(0.0); // Hakim knows why
             output.turning_direction = turning_direction;
         }
 

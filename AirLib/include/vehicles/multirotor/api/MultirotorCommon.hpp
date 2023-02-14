@@ -21,6 +21,7 @@ namespace airlib
         Landed = 0,
         Flying = 1
     };
+
     // Structs for rotor state API
     struct RotorParameters
     {

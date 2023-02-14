@@ -406,6 +406,22 @@ class RotorStates(MsgpackMixin):
     timestamp = np.uint64(0)
     rotors = []
 
+class TiltrotorState(MsgpackMixin):
+    collision = CollisionInfo()
+    kinematics_estimated = KinematicsState()
+    kinematics_true = KinematicsState()
+    gps_location = GeoPoint()
+    timestamp = np.uint64(0)
+    landed_state = LandedState.Landed
+    rc_data = RCData()
+    ready = False
+    ready_message = ""
+    can_arm = False
+
+class RotorTiltableStates(MsgpackMixin):
+    timestamp = np.uint64(0)
+    rotors = []
+
 class ProjectionMatrix(MsgpackMixin):
     matrix = []
 

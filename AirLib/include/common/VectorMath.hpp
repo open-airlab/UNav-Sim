@@ -695,6 +695,10 @@ namespace airlib
             static Vector3T v(0, -1, 0);
             return v;
         }
+        static const RealT sgn(RealT x)
+        {
+            return x > 0.f ? 1.f : (x < 0.f ? -1.f : 0.f);
+        }
     };
     typedef VectorMathT<Eigen::Vector3d, Eigen::Quaternion<double, Eigen::DontAlign>, double> VectorMathd;
     typedef VectorMathT<Eigen::Vector3f, Eigen::Quaternion<float, Eigen::DontAlign>, float> VectorMathf;

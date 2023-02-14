@@ -83,12 +83,23 @@ namespace airlib
         {
             //allow default constructor with later call for initialize
         }
-        PhysicsBody(real_T mass, const Matrix3x3r& inertia, Kinematics* kinematics, Environment* environment)
+        PhysicsBody(const Vector3r& added_mass_linear,const Vector3r& added_mass_angular, const Vector3r& damping_linear,const Vector3r& damping_angular,const Vector3r& damping_linear_q,const Vector3r& damping_angular_q, real_T off_z, real_T mass, const Matrix3x3r& inertia, Kinematics* kinematics, Environment* environment)
         {
-            initialize(mass, inertia, kinematics, environment);
+            initialize(added_mass_linear, added_mass_angular,damping_linear,damping_angular,damping_linear_q,damping_angular_q,off_z,mass, inertia, kinematics, environment);
+            //initialize(mass, inertia, kinematics, environment);
         }
-        void initialize(real_T mass, const Matrix3x3r& inertia, Kinematics* kinematics, Environment* environment)
+
+        void initialize(const Vector3r& added_mass_linear, const Vector3r& added_mass_angular, const Vector3r& damping_linear,const Vector3r& damping_angular,const Vector3r& damping_linear_q, const Vector3r& damping_angular_q, real_T off_z, real_T mass, const Matrix3x3r& inertia, Kinematics* kinematics, Environment* environment)
         {
+
+            added_mass_linear_= added_mass_linear;
+            added_mass_angular_ = added_mass_angular;
+            damping_linear_ = damping_linear;
+            damping_angular_= damping_angular; 
+            damping_linear_q_= damping_linear;
+            damping_angular_q_ = damping_angular_q;
+
+            off_z_ = off_z;
             mass_ = mass;
             mass_inv_ = 1.0f / mass;
             inertia_ = inertia;
@@ -148,6 +159,46 @@ namespace airlib
         //*** End: UpdatableState implementation ***//
 
         //getters
+
+        const Vector3r&  getAddedMassLinear() const
+        {
+            return added_mass_linear_;
+        }
+
+        const Vector3r&  getAddedMassAngular() const
+        {
+            return added_mass_angular_;
+        }
+
+        const Vector3r&  getDampingLinear() const
+        {
+            return damping_linear_;
+        }
+
+        const Vector3r&  getDampingAngular() const
+        {
+            return damping_angular_;
+        }
+
+        const Vector3r&  getDampingLinearQ() const
+        {
+            return damping_linear_q_;
+        }
+
+        const Vector3r&  getDampingAngularQ() const
+        {
+            return damping_angular_q_;
+        }
+
+
+
+        real_T getOffZ() const
+        {
+            return off_z_;
+        }
+
+
+        
         real_T getMass() const
         {
             return mass_;
@@ -249,7 +300,8 @@ namespace airlib
         TTimePoint last_kinematics_time;
 
     private:
-        real_T mass_, mass_inv_;
+        Vector3r added_mass_linear_, added_mass_angular_,damping_linear_,damping_angular_,damping_linear_q_,damping_angular_q_;
+        real_T mass_, mass_inv_, off_z_;
         Matrix3x3r inertia_, inertia_inv_;
 
         Kinematics* kinematics_ = nullptr;

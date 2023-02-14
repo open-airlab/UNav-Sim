@@ -41,7 +41,9 @@ namespace airlib
             createWrenchVertices(wrench_vertices_, body_box_.x(), body_box_.y(), body_box_.z(), mass_);
             createDragVertices(drag_vertices_, 1.3f, body_box_.x(), body_box_.y(), body_box_.z());
 
-            PhysicsBody::initialize(mass_, inertia_, kinematics, environment);
+            //PhysicsBody::initialize(mass_, inertia_, kinematics, environment);
+            //PhysicsBody::initialize(off_z_,mass_, inertia_, kinematics, environment);
+        PhysicsBody::initialize(added_mass_linear_, added_mass_angular_,damping_linear_,damping_angular_,damping_linear_q_,damping_angular_q_, off_z_,mass_, inertia_, kinematics, environment);
         }
 
         virtual void updateKinematics(const Kinematics::State& kinematics) override
@@ -151,6 +153,15 @@ namespace airlib
 
     private:
         Vector3r body_box_ = Vector3r(0.20f, 0.12f, 0.04f);
+
+        Vector3r added_mass_linear_ = Vector3r(0.20f, 0.12f, 0.04f);
+        Vector3r added_mass_angular_ = Vector3r(0.20f, 0.12f, 0.04f);
+        Vector3r damping_linear_ = Vector3r(0.20f, 0.12f, 0.04f);
+        Vector3r damping_angular_ = Vector3r(0.20f, 0.12f, 0.04f);
+        Vector3r damping_linear_q_ = Vector3r(0.20f, 0.12f, 0.04f);
+        Vector3r damping_angular_q_ = Vector3r(0.20f, 0.12f, 0.04f);
+        
+        real_T off_z_ = 0.1f;
         real_T mass_ = 1.0f;
         real_T restitution_ = 0.5f;
         real_T friction_ = 0.7f;

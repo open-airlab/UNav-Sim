@@ -147,7 +147,8 @@ namespace airlib
     private: //methods
         void initialize(Kinematics* kinematics, Environment* environment)
         {
-            PhysicsBody::initialize(params_->getParams().mass, params_->getParams().inertia, kinematics, environment);
+            //PhysicsBody::initialize(params_->getParams().mass, params_->getParams().inertia, kinematics, environment);
+	    PhysicsBody::initialize(params_->getParams().added_mass_linear,params_->getParams().added_mass_angular,params_->getParams().damping_linear,params_->getParams().damping_angular,params_->getParams().damping_linear_q,params_->getParams().damping_angular_q,params_->getParams().off_z, params_->getParams().mass, params_->getParams().inertia, kinematics, environment);
 
             createRotors(*params_, rotors_, environment);
             createDragVertices();

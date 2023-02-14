@@ -37,6 +37,16 @@ namespace airlib
         struct Params
         {
             /*********** required parameters ***********/
+            
+            Vector3r added_mass_linear;
+            Vector3r added_mass_angular;
+            Vector3r damping_linear;
+            Vector3r damping_angular;
+            Vector3r damping_linear_q;
+            Vector3r damping_angular_q;
+            
+            
+            real_T off_z;
             uint rotor_count;
             vector<RotorPose> rotor_poses;
             real_T mass;

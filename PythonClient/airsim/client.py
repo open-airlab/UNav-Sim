@@ -1629,3 +1629,66 @@ class CarClient(VehicleClient, object):
         """
         controls_raw = self.client.call('getCarControls', vehicle_name)
         return CarControls.from_msgpack(controls_raw)
+
+# -----------------------------------  Tiltrotor APIs ---------------------------------------------
+class TiltrotorClient(VehicleClient, object):
+    def __init__(self, ip = "", port = 41451, timeout_value = 3600):
+        super(TiltrotorClient, self).__init__(ip, port, timeout_value)
+
+    def simSetTiltrotorPose(self, pose, tilt_angles, ignore_collision, spin_props = True, vehicle_name = ''):
+        """
+        Set the pose of the tiltrotor (including tilt angles of rotors)
+
+        If you don't want to change position (or orientation) then just set components of position (or orientation) to floating point nan values
+
+        Args:
+            pose (Pose): Desired Pose of the vehicle
+            tilt_angles (list[float]): Desired tilt angles of rotors from vertical
+            ignore_collision (bool): Whether to ignore any collision or not
+            spin_props (bool): Whether to spin the props for animation. Defaults to True
+            vehicle_name (str, optional): Name of the vehicle to move
+        """
+        self.client.call('simSetTiltrotorPose', pose, tilt_angles, ignore_collision, spin_props, vehicle_name)
+
+    def moveByMotorPWMsAsync(self, pwm_values, duration, vehicle_name = ''):
+        """
+        Directly control the actuators using PWM values.
+
+        The actuator commands should be in the order of the outputs specified in the PX4 Airframe Reference.
+
+        Args:
+            pwm_values (list[float]): PWM values for the actuators (between 0.0 to 1.0)
+            duration (float): Desired amount of time (seconds), to send this command for
+            vehicle_name (str, optional): Name of the multirotor to send this command to
+        Returns:
+            msgpackrpc.future.Future: future. call .join() to wait for method to finish. Example: client.METHOD().join()
+        """
+        return self.client.call_async('moveByMotorPWMs', pwm_values, duration, vehicle_name)
+
+
+    # query vehicle state
+    def getTiltrotorState(self, vehicle_name = ''):
+        """
+        Args:
+            vehicle_name (str, optional): Vehicle to get the state of
+
+        Returns:
+            TiltrotorState:
+        """
+        return TiltrotorState.from_msgpack(self.client.call('getTiltrotorState', vehicle_name))
+    getTiltrotorState.__annotations__ = {'return': TiltrotorState}
+
+    # query rotor states
+    def getRotorStates(self, vehicle_name = ''):
+        """
+        Used to obtain the current state of all the aircraft's rotors. The state includes the speeds,
+        thrusts, torques, and tilt angles for all rotors.
+
+        Args:
+            vehicle_name (str, optional): Vehicle to get the rotor state of
+
+        Returns:
+            RotorTiltableStates: Containing a timestamp and the speed, thrust, torque and tilt angles of all rotors.
+        """
+        return RotorTiltableStates.from_msgpack(self.client.call('getRotorStates', vehicle_name))
+    getRotorStates.__annotations__ = {'return': RotorTiltableStates}

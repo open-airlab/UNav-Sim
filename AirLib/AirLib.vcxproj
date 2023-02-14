@@ -96,6 +96,10 @@
     <ClInclude Include="include\vehicles\multirotor\api\MultirotorRpcLibAdaptors.hpp" />
     <ClInclude Include="include\vehicles\multirotor\api\MultirotorRpcLibClient.hpp" />
     <ClInclude Include="include\vehicles\multirotor\api\MultirotorRpcLibServer.hpp" />
+    
+    <ClInclude Include="include\vehicles\rov\api\RovRpcLibClient.hpp" />
+    <ClInclude Include="include\vehicles\rov\api\RovRpcLibServer.hpp" />   
+    
     <ClInclude Include="include\vehicles\multirotor\firmwares\mavlink\ArduCopterSoloApi.hpp" />
     <ClInclude Include="include\vehicles\multirotor\firmwares\mavlink\ArduCopterSoloParams.hpp" />
     <ClInclude Include="include\vehicles\multirotor\firmwares\simple_flight\AirSimSimpleFlightBoard.hpp" />
@@ -140,6 +144,7 @@
     <ClInclude Include="include\safety\CubeGeoFence.hpp" />
     <ClInclude Include="include\safety\IGeoFence.hpp" />
     <ClInclude Include="include\vehicles\multirotor\firmwares\mavlink\MavLinkMultirotorApi.hpp" />
+    <ClInclude Include="include\vehicles\rov\firmwares\mavlink\MavLinkRovApi.hpp" />
     <ClInclude Include="include\safety\ObstacleMap.hpp" />
     <ClInclude Include="include\common\PidController.hpp" />
     <ClInclude Include="include\vehicles\car\api\CarRpcLibAdaptors.hpp" />
@@ -147,6 +152,7 @@
     <ClInclude Include="include\vehicles\car\api\CarRpcLibServer.hpp" />
     <ClInclude Include="include\safety\SafetyEval.hpp" />
     <ClInclude Include="include\vehicles\multirotor\api\MultirotorApiBase.hpp" />
+    <ClInclude Include="include\vehicles\rov\api\RovApiBase.hpp" />
     <ClInclude Include="include\common\Settings.hpp" />
     <ClInclude Include="include\safety\SphereGeoFence.hpp" />
     <ClInclude Include="include\common\Waiter.hpp" />
@@ -183,6 +189,7 @@
     <ClCompile Include="src\api\RpcLibClientBase.cpp" />
     <ClCompile Include="src\api\RpcLibServerBase.cpp" />
     <ClCompile Include="src\vehicles\multirotor\api\MultirotorApiBase.cpp" />
+    <ClCompile Include="src\vehicles\rov\api\RovApiBase.cpp" />
     <ClCompile Include="src\safety\ObstacleMap.cpp" />
     <ClCompile Include="src\safety\SafetyEval.cpp" />
     <ClCompile Include="src\common\common_utils\FileSystem.cpp" />
@@ -190,6 +197,8 @@
     <ClCompile Include="src\vehicles\car\api\CarRpcLibServer.cpp" />
     <ClCompile Include="src\vehicles\multirotor\api\MultirotorRpcLibClient.cpp" />
     <ClCompile Include="src\vehicles\multirotor\api\MultirotorRpcLibServer.cpp" />
+    <ClCompile Include="src\vehicles\rov\api\RovRpcLibClient.cpp" />
+    <ClCompile Include="src\vehicles\rov\api\RovRpcLibServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MavLinkCom\MavLinkCom.vcxproj">
@@ -331,7 +340,7 @@
       <AdditionalIncludeDirectories>include;deps\eigen3;deps\rpclib\include;$(ProjectDir)..\MavLinkCom\include</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <AdditionalOptions>/w34263 /w34266 %(AdditionalOptions)</AdditionalOptions>
-      <DisableSpecificWarnings>4100;4505;4820;4464;4514;4710;4571;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4100;4505;4820;4464;4514;4710;4571;4244;4100;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>

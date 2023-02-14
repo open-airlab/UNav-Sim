@@ -106,7 +106,7 @@ namespace airlib_rpclib
             KinematicsState kinematics_true;
             GeoPoint gps_location;
             uint64_t timestamp;
-            msr::airlib::LandedState landed_state;
+            LandedState landed_state;
             RCData rc_data;
             bool ready;
             std::string ready_message;
