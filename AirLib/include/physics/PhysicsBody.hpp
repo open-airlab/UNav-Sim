@@ -77,6 +77,11 @@ namespace airlib
             kinematics_->update();
         }
 
+        virtual void setAirspeedBody(const Vector3r airspeed_body_vector)
+        {
+            unused(airspeed_body_vector);
+        }
+
     public: //methods
         //constructors
         PhysicsBody()

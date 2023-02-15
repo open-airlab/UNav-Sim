@@ -7,6 +7,7 @@
 #include "common/Common.hpp"
 #include "common/CommonStructs.hpp"
 #include "RotorTiltable.hpp"
+#include "AeroVertex.hpp"
 #include "api/VehicleApiBase.hpp"
 #include "api/VehicleSimApiBase.hpp"
 #include "RovBodyParams.hpp"

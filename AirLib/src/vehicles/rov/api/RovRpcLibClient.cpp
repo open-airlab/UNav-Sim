@@ -80,14 +80,14 @@ __pragma(warning(disable : 4239))
         }
 
         RovRpcLibClient* RovRpcLibClient::moveByVelocityBodyFrameAsync(float vx, float vy, float vz, float duration,
-                                                                                   DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
+                                                                       DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
         {
             pimpl_->last_future = static_cast<rpc::client*>(getClient())->async_call("moveByVelocityBodyFrame", vx, vy, vz, duration, drivetrain, MultirotorRpcLibAdaptors::YawMode(yaw_mode), vehicle_name);
             return this;
         }
 
         RovRpcLibClient* RovRpcLibClient::moveByVelocityZBodyFrameAsync(float vx, float vy, float z, float duration,
-                                                                                    DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
+                                                                        DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
         {
             pimpl_->last_future = static_cast<rpc::client*>(getClient())->async_call("moveByVelocityZBodyFrame", vx, vy, z, duration, drivetrain, MultirotorRpcLibAdaptors::YawMode(yaw_mode), vehicle_name);
             return this;
@@ -136,21 +136,21 @@ __pragma(warning(disable : 4239))
         }
 
         RovRpcLibClient* RovRpcLibClient::moveByVelocityAsync(float vx, float vy, float vz, float duration,
-                                                                          DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
+                                                              DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
         {
             pimpl_->last_future = static_cast<rpc::client*>(getClient())->async_call("moveByVelocity", vx, vy, vz, duration, drivetrain, MultirotorRpcLibAdaptors::YawMode(yaw_mode), vehicle_name);
             return this;
         }
 
         RovRpcLibClient* RovRpcLibClient::moveByVelocityZAsync(float vx, float vy, float z, float duration,
-                                                                           DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
+                                                               DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
         {
             pimpl_->last_future = static_cast<rpc::client*>(getClient())->async_call("moveByVelocityZ", vx, vy, z, duration, drivetrain, MultirotorRpcLibAdaptors::YawMode(yaw_mode), vehicle_name);
             return this;
         }
 
         RovRpcLibClient* RovRpcLibClient::moveOnPathAsync(const vector<Vector3r>& path, float velocity, float duration,
-                                                                      DrivetrainType drivetrain, const YawMode& yaw_mode, float lookahead, float adaptive_lookahead, const std::string& vehicle_name)
+                                                          DrivetrainType drivetrain, const YawMode& yaw_mode, float lookahead, float adaptive_lookahead, const std::string& vehicle_name)
         {
             vector<RovRpcLibAdaptors::Vector3r> conv_path;
             RovRpcLibAdaptors::from(path, conv_path);
@@ -158,8 +158,15 @@ __pragma(warning(disable : 4239))
             return this;
         }
 
+        RovRpcLibClient* RovRpcLibClient::moveToGPSAsync(float latitude, float longitude, float altitude, float velocity, float timeout_sec,
+                                                         DrivetrainType drivetrain, const YawMode& yaw_mode, float lookahead, float adaptive_lookahead, const std::string& vehicle_name)
+        {
+            pimpl_->last_future = static_cast<rpc::client*>(getClient())->async_call("movetoGPS", latitude, longitude, altitude, velocity, timeout_sec, drivetrain, MultirotorRpcLibAdaptors::YawMode(yaw_mode), lookahead, adaptive_lookahead, vehicle_name);
+            return this;
+        }
+
         RovRpcLibClient* RovRpcLibClient::moveToPositionAsync(float x, float y, float z, float velocity, float timeout_sec,
-                                                                          DrivetrainType drivetrain, const YawMode& yaw_mode, float lookahead, float adaptive_lookahead, const std::string& vehicle_name)
+                                                              DrivetrainType drivetrain, const YawMode& yaw_mode, float lookahead, float adaptive_lookahead, const std::string& vehicle_name)
         {
             pimpl_->last_future = static_cast<rpc::client*>(getClient())->async_call("moveToPosition", x, y, z, velocity, timeout_sec, drivetrain, MultirotorRpcLibAdaptors::YawMode(yaw_mode), lookahead, adaptive_lookahead, vehicle_name);
             return this;
@@ -172,7 +179,7 @@ __pragma(warning(disable : 4239))
         }
 
         RovRpcLibClient* RovRpcLibClient::moveByManualAsync(float vx_max, float vy_max, float z_min, float duration,
-                                                                        DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
+                                                            DrivetrainType drivetrain, const YawMode& yaw_mode, const std::string& vehicle_name)
         {
             pimpl_->last_future = static_cast<rpc::client*>(getClient())->async_call("moveByManual", vx_max, vy_max, z_min, duration, drivetrain, MultirotorRpcLibAdaptors::YawMode(yaw_mode), vehicle_name);
             return this;
@@ -217,7 +224,7 @@ __pragma(warning(disable : 4239))
         }
 
         bool RovRpcLibClient::setSafety(SafetyEval::SafetyViolationType enable_reasons, float obs_clearance, SafetyEval::ObsAvoidanceStrategy obs_startegy,
-                                              float obs_avoidance_vel, const Vector3r& origin, float xy_length, float max_z, float min_z, const std::string& vehicle_name)
+                                        float obs_avoidance_vel, const Vector3r& origin, float xy_length, float max_z, float min_z, const std::string& vehicle_name)
         {
             return static_cast<rpc::client*>(getClient())->call("setSafety", static_cast<uint>(enable_reasons), obs_clearance, obs_startegy, obs_avoidance_vel, RovRpcLibAdaptors::Vector3r(origin), xy_length, max_z, min_z, vehicle_name).as<bool>();
         }

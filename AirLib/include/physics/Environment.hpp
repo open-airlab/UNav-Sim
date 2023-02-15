@@ -23,6 +23,7 @@ namespace airlib
             //these fields must be set at initialization time
             Vector3r position;
             GeoPoint geo_point;
+            real_T airspeed;
 
             //these fields are computed
             Vector3r gravity;
@@ -53,6 +54,7 @@ namespace airlib
             initial_ = initial;
 
             setHomeGeoPoint(initial_.geo_point);
+            initial_.airspeed = 0.f;
 
             updateState(initial_);
         }
@@ -72,6 +74,12 @@ namespace airlib
         void setPosition(const Vector3r& position)
         {
             current_.position = position;
+        }
+
+        //called in FastPhysicsEngine::getDragWrench()
+        void setAirspeedMagnitude(const real_T& airspeed)
+        {
+            current_.airspeed = airspeed;
         }
 
         const State& getInitialState() const

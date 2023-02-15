@@ -1746,7 +1746,7 @@ namespace airlib
             }
         }
 
-        void sendHILSensor(const Vector3r& acceleration, const Vector3r& gyro, const Vector3r& mag, float abs_pressure, float pressure_alt, float diff_pressure)
+        void sendHILSensor(const Vector3r& acceleration, const Vector3r& gyro, const Vector3r& mag, float abs_pressure, float pressure_alt)
         {
             if (!is_simulation_mode_)
                 throw std::logic_error("Attempt to send simulated sensor messages while not in simulation mode");
@@ -1776,7 +1776,7 @@ namespace airlib
 
             hil_sensor.fields_updated |= 0b1101000000000; // Set baro bit fields
 
-            hil_sensor.diff_pressure = diff_pressure;
+            // hil_sensor.diff_pressure = diff_pressure;
 
             //TODO: enable temperature? diff_pressure
             if (was_reset_) {

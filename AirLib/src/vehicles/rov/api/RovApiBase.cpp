@@ -276,7 +276,7 @@ namespace airlib
     }
 
     bool RovApiBase::moveOnPath(const vector<Vector3r>& path, float velocity, float timeout_sec, DrivetrainType drivetrain, const YawMode& yaw_mode,
-                                      float lookahead, float adaptive_lookahead)
+                                float lookahead, float adaptive_lookahead)
     {
         SingleTaskCall lock(this);
 
@@ -454,8 +454,26 @@ namespace airlib
         return waiter.isComplete();
     }
 
+    bool RovApiBase::moveToGPS(float latitude, float longitude, float altitude, float velocity, float timeout_sec, DrivetrainType drivetrain,
+                                      const YawMode& yaw_mode, float lookahead, float adaptive_lookahead)
+    {
+        SingleTaskCall lock(this);
+        GeoPoint target;
+        target.latitude = latitude;
+        target.longitude = longitude;
+        target.altitude = altitude;
+        if (!std::isnan(getHomeGeoPoint().latitude) && !std::isnan(getHomeGeoPoint().longitude) && !std::isnan(getHomeGeoPoint().altitude)) {
+            vector<Vector3r> path{ msr::airlib::EarthUtils::GeodeticToNed(target, getHomeGeoPoint()) };
+            return moveOnPath(path, velocity, timeout_sec, drivetrain, yaw_mode, lookahead, adaptive_lookahead);
+        }
+        else {
+            vector<Vector3r> path{ Vector3r(getPosition().x(), getPosition().y(), getPosition().z()) };
+            return moveOnPath(path, velocity, timeout_sec, drivetrain, yaw_mode, lookahead, adaptive_lookahead);
+        }
+    }
+
     bool RovApiBase::moveToPosition(float x, float y, float z, float velocity, float timeout_sec, DrivetrainType drivetrain,
-                                          const YawMode& yaw_mode, float lookahead, float adaptive_lookahead)
+                                    const YawMode& yaw_mode, float lookahead, float adaptive_lookahead)
     {
         SingleTaskCall lock(this);
 
@@ -464,7 +482,7 @@ namespace airlib
     }
 
     bool RovApiBase::moveToZ(float z, float velocity, float timeout_sec, const YawMode& yaw_mode,
-                                   float lookahead, float adaptive_lookahead)
+                             float lookahead, float adaptive_lookahead)
     {
         SingleTaskCall lock(this);
 
@@ -774,7 +792,7 @@ namespace airlib
     }
 
     bool RovApiBase::setSafety(SafetyEval::SafetyViolationType enable_reasons, float obs_clearance, SafetyEval::ObsAvoidanceStrategy obs_startegy,
-                                     float obs_avoidance_vel, const Vector3r& origin, float xy_length, float max_z, float min_z)
+                               float obs_avoidance_vel, const Vector3r& origin, float xy_length, float max_z, float min_z)
     {
         if (safety_eval_ptr_ == nullptr)
             throw std::invalid_argument("The setSafety call requires safety_eval_ptr_ to be set first");
@@ -841,7 +859,7 @@ namespace airlib
     }
 
     float RovApiBase::setNextPathPosition(const vector<Vector3r>& path, const vector<PathSegment>& path_segs,
-                                                const PathPosition& cur_path_loc, float next_dist, PathPosition& next_path_loc)
+                                          const PathPosition& cur_path_loc, float next_dist, PathPosition& next_path_loc)
     {
         //note: cur_path_loc and next_path_loc may both point to same object
         uint i = cur_path_loc.seg_index;
@@ -900,7 +918,7 @@ namespace airlib
     }
 
     float RovApiBase::getAutoLookahead(float velocity, float adaptive_lookahead,
-                                             float max_factor, float min_factor) const
+                                       float max_factor, float min_factor) const
     {
         //if auto mode requested for lookahead then calculate based on velocity
         float command_period_dist = velocity * getCommandPeriod();

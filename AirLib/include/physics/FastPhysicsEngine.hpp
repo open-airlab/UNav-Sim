@@ -266,7 +266,7 @@ namespace airlib
             }
         }
 
-        static Wrench getDragWrench(const PhysicsBody& body,
+        static Wrench getDragWrench(PhysicsBody& body,
                                     const Quaternionr& orientation,
                                     const Vector3r& linear_vel,
                                     const Vector3r& angular_vel_body,
@@ -287,6 +287,9 @@ namespace airlib
             // Use relative velocity of the body wrt wind
             const Vector3r relative_vel = linear_vel - wind_world; //TODO: Change wind to current
             const Vector3r linear_vel_body = VectorMath::transformToBodyFrame(relative_vel, orientation);
+
+            body.setAirspeedBody(linear_vel_body);
+            // body.getEnvironment().setAirspeedMagnitude(linear_vel_body.norm());
 
             const Vector3r added_mass_linear = body.getAddedMassLinear();
             const Vector3r added_mass_angular = body.getAddedMassAngular();

@@ -45,7 +45,7 @@ namespace airlib
                 setupQuadPlane(params);
             }
             //else //Generic
-             //   setupGenericFixedWing(params);
+            //   setupGenericFixedWing(params);
         }
 
     protected:
@@ -55,6 +55,11 @@ namespace airlib
         }
 
     private:
+        void setupQuadPlane(Params& params)
+        {
+            //TODO
+            throw std::logic_error{ "QuadPlane params not yet implemented." };
+        }
         static const AirSimSettings::MavLinkConnectionInfo& getConnectionInfo(const AirSimSettings::MavLinkVehicleSetting& vehicle_setting)
         {
             return vehicle_setting.connection_info;
