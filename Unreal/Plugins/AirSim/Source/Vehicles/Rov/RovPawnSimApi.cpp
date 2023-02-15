@@ -153,6 +153,16 @@ void RovPawnSimApi::setPose(const Pose& pose, bool ignore_collision)
     pending_pose_status_ = PendingPoseStatus::RenderPending;
 }
 
+void RovPawnSimApi::setKinematics(const Kinematics::State& state, bool ignore_collision)
+{
+    rov_physics_body_->lock();
+    rov_physics_body_->updateKinematics(state);
+    rov_physics_body_->setGrounded(false);
+    rov_physics_body_->unlock();
+    pending_pose_collisions_ = ignore_collision;
+    pending_pose_status_ = PendingPoseStatus::RenderPending;
+}
+
 void RovPawnSimApi::setPoseCustom(const Pose& pose, const vector<float>& tilt_angles, bool ignore_collision, bool spin_props)
 {
     bool correct_num_angles = tilt_angles.size() == rotor_count_;
