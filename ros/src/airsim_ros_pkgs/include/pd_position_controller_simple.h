@@ -11,6 +11,7 @@ STRICT_MODE_OFF //todo what does this do?
 
 #include "common/common_utils/FileSystem.hpp"
 #include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
+#include "vehicles/rov/api/RovRpcLibClient.hpp"
 #include "common/GeodeticConverter.hpp"
 
 #include <ros/ros.h>

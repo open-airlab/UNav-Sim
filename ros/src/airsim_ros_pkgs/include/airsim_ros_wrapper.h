@@ -13,6 +13,7 @@ STRICT_MODE_OFF //todo what does this do?
 #include "ros/ros.h"
 #include "sensors/imu/ImuBase.hpp"
 #include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
+#include "vehicles/rov/api/RovRpcLibClient.hpp"
 #include "vehicles/car/api/CarRpcLibClient.hpp"
 #include "yaml-cpp/yaml.h"
 #include <airsim_ros_pkgs/GimbalAngleEulerCmd.h>
@@ -24,6 +25,8 @@ STRICT_MODE_OFF //todo what does this do?
 #include <airsim_ros_pkgs/Takeoff.h>
 #include <airsim_ros_pkgs/TakeoffGroup.h>
 #include <airsim_ros_pkgs/VelCmd.h>
+#include <airsim_ros_pkgs/PwmCmd.h>
+#include <airsim_ros_pkgs/CurrentDist.h>
 #include <airsim_ros_pkgs/VelCmdGroup.h>
 #include <airsim_ros_pkgs/CarControls.h>
 #include <airsim_ros_pkgs/CarState.h>
@@ -33,6 +36,7 @@ STRICT_MODE_OFF //todo what does this do?
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <geometry_msgs/Twist.h>
+#include <geometry_msgs/Point.h>
 #include <image_transport/image_transport.h>
 #include <iostream>
 #include <math.h>
@@ -41,6 +45,8 @@ STRICT_MODE_OFF //todo what does this do?
 #include <nav_msgs/Odometry.h>
 #include <opencv2/opencv.hpp>
 #include <ros/callback_queue.h>
+#include <std_msgs/Float64MultiArray.h>
+#include <std_msgs/Float64.h>
 #include <ros/console.h>
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/distortion_models.h>
@@ -86,19 +92,11 @@ struct VelCmd
     msr::airlib::YawMode yaw_mode;
     std::string vehicle_name;
 
-    // VelCmd() :
-    //     x(0), y(0), z(0),
-    //     vehicle_name("") {drivetrain = msr::airlib::DrivetrainType::MaxDegreeOfFreedom;
-    //             yaw_mode = msr::airlib::YawMode();};
+};
 
-    // VelCmd(const double& x, const double& y, const double& z,
-    //         msr::airlib::DrivetrainType drivetrain,
-    //         const msr::airlib::YawMode& yaw_mode,
-    //         const std::string& vehicle_name) :
-    //     x(x), y(y), z(z),
-    //     drivetrain(drivetrain),
-    //     yaw_mode(yaw_mode),
-    //     vehicle_name(vehicle_name) {};
+
+struct PwmCmd {
+    float x;
 };
 
 struct GimbalCmd
@@ -196,21 +194,30 @@ private:
         msr::airlib::CarApiBase::CarControls car_cmd;
     };
 
-    class MultiRotorROS : public VehicleROS
+    class RovROS : public VehicleROS
     {
     public:
         /// State
-        msr::airlib::MultirotorState curr_drone_state;
+        msr::airlib::RovState curr_drone_state;
         // bool in_air_; // todo change to "status" and keep track of this
 
         ros::Subscriber vel_cmd_body_frame_sub;
         ros::Subscriber vel_cmd_world_frame_sub;
 
+
+        ros::Subscriber pwm_cmd_sub;
+        ros::Subscriber current_dist_sub;
+        
         ros::ServiceServer takeoff_srvr;
         ros::ServiceServer land_srvr;
 
         bool has_vel_cmd;
         VelCmd vel_cmd;
+        //PWMCmd pwm_out;
+        //std_msgs::Float64MultiArray pwm_cmd;
+        std::vector<float> pwm_cmd = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        Vector3r current_dist;
+        //std::vector<float> current_dist = {0.0, 0.0, 0.0};
 
         /// Status
         // bool in_air_; // todo change to "status" and keep track of this
@@ -224,6 +231,10 @@ private:
     /// ROS subscriber callbacks
     void vel_cmd_world_frame_cb(const airsim_ros_pkgs::VelCmd::ConstPtr& msg, const std::string& vehicle_name);
     void vel_cmd_body_frame_cb(const airsim_ros_pkgs::VelCmd::ConstPtr& msg, const std::string& vehicle_name);
+
+    void pwm_cmd_cb(const airsim_ros_pkgs::PwmCmd::ConstPtr& msg, const std::string& vehicle_name);
+    void current_dist_cb(const airsim_ros_pkgs::CurrentDist::ConstPtr& msg, const std::string& vehicle_name);
+    //void pwm_cmd_cb(const geometry_msgs::Point::ConstPtr& msg, const std::string& vehicle_name);
 
     void vel_cmd_group_body_frame_cb(const airsim_ros_pkgs::VelCmdGroup& msg);
     void vel_cmd_group_world_frame_cb(const airsim_ros_pkgs::VelCmdGroup& msg);
@@ -279,7 +290,7 @@ private:
     tf2::Quaternion get_tf2_quat(const msr::airlib::Quaternionr& airlib_quat) const;
     msr::airlib::Quaternionr get_airlib_quat(const geometry_msgs::Quaternion& geometry_msgs_quat) const;
     msr::airlib::Quaternionr get_airlib_quat(const tf2::Quaternion& tf2_quat) const;
-    nav_msgs::Odometry get_odom_msg_from_multirotor_state(const msr::airlib::MultirotorState& drone_state) const;
+    nav_msgs::Odometry get_odom_msg_from_rov_state(const msr::airlib::RovState& drone_state) const;
     nav_msgs::Odometry get_odom_msg_from_car_state(const msr::airlib::CarApiBase::CarState& car_state) const;
     airsim_ros_pkgs::CarState get_roscarstate_msg_from_car_state(const msr::airlib::CarApiBase::CarState& car_state) const;
     msr::airlib::Pose get_airlib_pose(const float& x, const float& y, const float& z, const msr::airlib::Quaternionr& airlib_quat) const;
@@ -304,6 +315,7 @@ private:
     // Utility methods to convert airsim_client_
     msr::airlib::MultirotorRpcLibClient* get_multirotor_client();
     msr::airlib::CarRpcLibClient* get_car_client();
+    msr::airlib::RovRpcLibClient* get_car_client();
 
 private:
     ros::NodeHandle nh_;
@@ -367,6 +379,7 @@ private:
 
     /// ROS params
     double vel_cmd_duration_;
+    double pwm_cmd_duration_;
 
     /// ROS Timers.
     ros::Timer airsim_img_response_timer_;

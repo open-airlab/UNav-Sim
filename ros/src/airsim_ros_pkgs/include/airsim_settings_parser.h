@@ -7,6 +7,7 @@ STRICT_MODE_OFF
 STRICT_MODE_ON
 
 #include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
+#include "vehicles/rov/api/RovRpcLibClient.hpp"
 #include "common/common_utils/FileSystem.hpp"
 #include <iostream>
 #include <chrono>

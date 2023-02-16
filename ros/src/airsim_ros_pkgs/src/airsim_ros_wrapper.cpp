@@ -61,7 +61,7 @@ void AirsimROSWrapper::initialize_airsim()
     try {
 
         if (airsim_mode_ == AIRSIM_MODE::DRONE) {
-            airsim_client_ = std::unique_ptr<msr::airlib::RpcLibClientBase>(new msr::airlib::MultirotorRpcLibClient(host_ip_));
+            airsim_client_ = std::unique_ptr<msr::airlib::RpcLibClientBase>(new msr::airlib::RovRpcLibClient(host_ip_));
         }
         else {
             airsim_client_ = std::unique_ptr<msr::airlib::RpcLibClientBase>(new msr::airlib::CarRpcLibClient(host_ip_));
@@ -99,7 +99,10 @@ void AirsimROSWrapper::initialize_ros()
     nh_private_.param("odom_frame_id", odom_frame_id_, odom_frame_id_);
     isENU_ = !(odom_frame_id_ == AIRSIM_ODOM_FRAME_ID);
     nh_private_.param("coordinate_system_enu", isENU_, isENU_);
-    vel_cmd_duration_ = 0.05; // todo rosparam
+    vel_cmd_duration_ = 0.05;
+    pwm_cmd_duration_ = 0.05;
+    //current_dist_duration_ = 0.05;
+     // todo rosparam
     // todo enforce dynamics constraints in this node as well?
     // nh_.getParam("max_vert_vel_", max_vert_vel_);
     // nh_.getParam("max_horz_vel", max_horz_vel_)
@@ -137,7 +140,7 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
         std::unique_ptr<VehicleROS> vehicle_ros = nullptr;
 
         if (airsim_mode_ == AIRSIM_MODE::DRONE) {
-            vehicle_ros = std::unique_ptr<MultiRotorROS>(new MultiRotorROS());
+            vehicle_ros = std::unique_ptr<RovROS>(new RovROS());
         }
         else {
             vehicle_ros = std::unique_ptr<CarROS>(new CarROS());
@@ -155,7 +158,7 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
         vehicle_ros->global_gps_pub = nh_private_.advertise<sensor_msgs::NavSatFix>(curr_vehicle_name + "/global_gps", 10);
 
         if (airsim_mode_ == AIRSIM_MODE::DRONE) {
-            auto drone = static_cast<MultiRotorROS*>(vehicle_ros.get());
+            auto drone = static_cast<RovROS*>(vehicle_ros.get());
 
             // bind to a single callback. todo optimal subs queue length
             // bind multiple topics to a single callback, but keep track of which vehicle name it was by passing curr_vehicle_name as the 2nd argument
@@ -169,6 +172,17 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
                 curr_vehicle_name + "/vel_cmd_world_frame",
                 1,
                 boost::bind(&AirsimROSWrapper::vel_cmd_world_frame_cb, this, _1, vehicle_ros->vehicle_name));
+	
+	    drone->pwm_cmd_sub = nh_private_.subscribe<airsim_ros_pkgs::PwmCmd>(
+		curr_vehicle_name + "/pwm_cmd",
+		1,
+		boost::bind(&AirsimROSWrapper::pwm_cmd_cb, this, _1, vehicle_ros->vehicle_name));
+		
+	    drone->current_dist_sub = nh_private_.subscribe<airsim_ros_pkgs::CurrentDist>(
+		curr_vehicle_name + "/current_dist",
+		1, 
+		boost::bind(&AirsimROSWrapper::current_dist_cb, this, _1, vehicle_ros->vehicle_name));
+
 
             drone->takeoff_srvr = nh_private_.advertiseService<airsim_ros_pkgs::Takeoff::Request, airsim_ros_pkgs::Takeoff::Response>(
                 curr_vehicle_name + "/takeoff",
@@ -355,9 +369,9 @@ bool AirsimROSWrapper::takeoff_srv_cb(airsim_ros_pkgs::Takeoff::Request& request
     std::lock_guard<std::mutex> guard(drone_control_mutex_);
 
     if (request.waitOnLastTask)
-        get_multirotor_client()->takeoffAsync(20, vehicle_name)->waitOnLastTask(); // todo value for timeout_sec?
+        get_rov_client()->takeoffAsync(20, vehicle_name)->waitOnLastTask(); // todo value for timeout_sec?
     else
-        get_multirotor_client()->takeoffAsync(20, vehicle_name);
+        get_rov_client()->takeoffAsync(20, vehicle_name);
 
     response.success = true;
     return response.success;
@@ -369,10 +383,10 @@ bool AirsimROSWrapper::takeoff_group_srv_cb(airsim_ros_pkgs::TakeoffGroup::Reque
 
     if (request.waitOnLastTask)
         for (const auto& vehicle_name : request.vehicle_names)
-            get_multirotor_client()->takeoffAsync(20, vehicle_name)->waitOnLastTask(); // todo value for timeout_sec?
+            get_rov_client()->takeoffAsync(20, vehicle_name)->waitOnLastTask(); // todo value for timeout_sec?
     else
         for (const auto& vehicle_name : request.vehicle_names)
-            get_multirotor_client()->takeoffAsync(20, vehicle_name);
+            get_rov_client()->takeoffAsync(20, vehicle_name);
 
     response.success = true;
     return response.success;
@@ -384,10 +398,10 @@ bool AirsimROSWrapper::takeoff_all_srv_cb(airsim_ros_pkgs::Takeoff::Request& req
 
     if (request.waitOnLastTask)
         for (const auto& vehicle_name_ptr_pair : vehicle_name_ptr_map_)
-            get_multirotor_client()->takeoffAsync(20, vehicle_name_ptr_pair.first)->waitOnLastTask(); // todo value for timeout_sec?
+            get_rov_client()->takeoffAsync(20, vehicle_name_ptr_pair.first)->waitOnLastTask(); // todo value for timeout_sec?
     else
         for (const auto& vehicle_name_ptr_pair : vehicle_name_ptr_map_)
-            get_multirotor_client()->takeoffAsync(20, vehicle_name_ptr_pair.first);
+            get_rov_client()->takeoffAsync(20, vehicle_name_ptr_pair.first);
 
     response.success = true;
     return response.success;
@@ -398,9 +412,9 @@ bool AirsimROSWrapper::land_srv_cb(airsim_ros_pkgs::Land::Request& request, airs
     std::lock_guard<std::mutex> guard(drone_control_mutex_);
 
     if (request.waitOnLastTask)
-        get_multirotor_client()->landAsync(60, vehicle_name)->waitOnLastTask();
+        get_rov_client()->landAsync(60, vehicle_name)->waitOnLastTask();
     else
-        get_multirotor_client()->landAsync(60, vehicle_name);
+        get_rov_client()->landAsync(60, vehicle_name);
 
     response.success = true;
     return response.success; //todo
@@ -412,10 +426,10 @@ bool AirsimROSWrapper::land_group_srv_cb(airsim_ros_pkgs::LandGroup::Request& re
 
     if (request.waitOnLastTask)
         for (const auto& vehicle_name : request.vehicle_names)
-            get_multirotor_client()->landAsync(60, vehicle_name)->waitOnLastTask();
+            get_rov_client()->landAsync(60, vehicle_name)->waitOnLastTask();
     else
         for (const auto& vehicle_name : request.vehicle_names)
-            get_multirotor_client()->landAsync(60, vehicle_name);
+            get_rov_client()->landAsync(60, vehicle_name);
 
     response.success = true;
     return response.success; //todo
@@ -427,10 +441,10 @@ bool AirsimROSWrapper::land_all_srv_cb(airsim_ros_pkgs::Land::Request& request, 
 
     if (request.waitOnLastTask)
         for (const auto& vehicle_name_ptr_pair : vehicle_name_ptr_map_)
-            get_multirotor_client()->landAsync(60, vehicle_name_ptr_pair.first)->waitOnLastTask();
+            get_rov_client()->landAsync(60, vehicle_name_ptr_pair.first)->waitOnLastTask();
     else
         for (const auto& vehicle_name_ptr_pair : vehicle_name_ptr_map_)
-            get_multirotor_client()->landAsync(60, vehicle_name_ptr_pair.first);
+            get_rov_client()->landAsync(60, vehicle_name_ptr_pair.first);
 
     response.success = true;
     return response.success; //todo
@@ -489,7 +503,7 @@ void AirsimROSWrapper::vel_cmd_body_frame_cb(const airsim_ros_pkgs::VelCmd::Cons
 {
     std::lock_guard<std::mutex> guard(drone_control_mutex_);
 
-    auto drone = static_cast<MultiRotorROS*>(vehicle_name_ptr_map_[vehicle_name].get());
+    auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
 
     double roll, pitch, yaw;
     tf2::Matrix3x3(get_tf2_quat(drone->curr_drone_state.kinematics_estimated.pose.orientation)).getRPY(roll, pitch, yaw); // ros uses xyzw
@@ -505,12 +519,49 @@ void AirsimROSWrapper::vel_cmd_body_frame_cb(const airsim_ros_pkgs::VelCmd::Cons
     drone->has_vel_cmd = true;
 }
 
+std_msgs::Float64MultiArray v;
+void AirsimROSWrapper::pwm_cmd_cb(const airsim_ros_pkgs::PwmCmd::ConstPtr& msg, const std::string& vehicle_name)
+{
+    std::lock_guard<std::mutex> guard(drone_control_mutex_);
+
+    auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
+
+
+
+   drone->pwm_cmd = msg->pwmvals;
+
+   
+}
+
+
+void AirsimROSWrapper::current_dist_cb(const airsim_ros_pkgs::CurrentDist::ConstPtr& msg, const std::string& vehicle_name)
+{
+    std::lock_guard<std::mutex> guard(drone_control_mutex_);
+
+    auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
+
+
+   //drone->current_dist = Vector3r(0.0,0.0,0.0);
+
+   drone->current_dist = Vector3r(msg->currentval[0],msg->currentval[1],msg->currentval[2]);
+   //drone->current_dist(0) = msg->currentval[0];
+
+   
+}
+
+
+
+
+
+
+
+
 void AirsimROSWrapper::vel_cmd_group_body_frame_cb(const airsim_ros_pkgs::VelCmdGroup& msg)
 {
     std::lock_guard<std::mutex> guard(drone_control_mutex_);
 
     for (const auto& vehicle_name : msg.vehicle_names) {
-        auto drone = static_cast<MultiRotorROS*>(vehicle_name_ptr_map_[vehicle_name].get());
+        auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
 
         double roll, pitch, yaw;
         tf2::Matrix3x3(get_tf2_quat(drone->curr_drone_state.kinematics_estimated.pose.orientation)).getRPY(roll, pitch, yaw); // ros uses xyzw
@@ -534,7 +585,7 @@ void AirsimROSWrapper::vel_cmd_all_body_frame_cb(const airsim_ros_pkgs::VelCmd& 
 
     // todo expose waitOnLastTask or nah?
     for (auto& vehicle_name_ptr_pair : vehicle_name_ptr_map_) {
-        auto drone = static_cast<MultiRotorROS*>(vehicle_name_ptr_pair.second.get());
+        auto drone = static_cast<RovROS*>(vehicle_name_ptr_pair.second.get());
 
         double roll, pitch, yaw;
         tf2::Matrix3x3(get_tf2_quat(drone->curr_drone_state.kinematics_estimated.pose.orientation)).getRPY(roll, pitch, yaw); // ros uses xyzw
@@ -555,7 +606,7 @@ void AirsimROSWrapper::vel_cmd_world_frame_cb(const airsim_ros_pkgs::VelCmd::Con
 {
     std::lock_guard<std::mutex> guard(drone_control_mutex_);
 
-    auto drone = static_cast<MultiRotorROS*>(vehicle_name_ptr_map_[vehicle_name].get());
+    auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
 
     drone->vel_cmd.x = msg->twist.linear.x;
     drone->vel_cmd.y = msg->twist.linear.y;
@@ -572,7 +623,7 @@ void AirsimROSWrapper::vel_cmd_group_world_frame_cb(const airsim_ros_pkgs::VelCm
     std::lock_guard<std::mutex> guard(drone_control_mutex_);
 
     for (const auto& vehicle_name : msg.vehicle_names) {
-        auto drone = static_cast<MultiRotorROS*>(vehicle_name_ptr_map_[vehicle_name].get());
+        auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
 
         drone->vel_cmd.x = msg.twist.linear.x;
         drone->vel_cmd.y = msg.twist.linear.y;
@@ -590,7 +641,7 @@ void AirsimROSWrapper::vel_cmd_all_world_frame_cb(const airsim_ros_pkgs::VelCmd&
 
     // todo expose waitOnLastTask or nah?
     for (auto& vehicle_name_ptr_pair : vehicle_name_ptr_map_) {
-        auto drone = static_cast<MultiRotorROS*>(vehicle_name_ptr_pair.second.get());
+        auto drone = static_cast<RovROS*>(vehicle_name_ptr_pair.second.get());
 
         drone->vel_cmd.x = msg.twist.linear.x;
         drone->vel_cmd.y = msg.twist.linear.y;
@@ -691,7 +742,7 @@ nav_msgs::Odometry AirsimROSWrapper::get_odom_msg_from_car_state(const msr::airl
     return odom_msg;
 }
 
-nav_msgs::Odometry AirsimROSWrapper::get_odom_msg_from_multirotor_state(const msr::airlib::MultirotorState& drone_state) const
+nav_msgs::Odometry AirsimROSWrapper::get_odom_msg_from_rov_state(const msr::airlib::RovState& drone_state) const
 {
     nav_msgs::Odometry odom_msg;
 
@@ -934,6 +985,11 @@ ros::Time AirsimROSWrapper::airsim_timestamp_to_ros(const msr::airlib::TTimePoin
     return cur_time;
 }
 
+msr::airlib::RovRpcLibClient* AirsimROSWrapper::get_rov_client()
+{
+    return static_cast<msr::airlib::RovRpcLibClient*>(airsim_client_.get());
+}
+
 msr::airlib::MultirotorRpcLibClient* AirsimROSWrapper::get_multirotor_client()
 {
     return static_cast<msr::airlib::MultirotorRpcLibClient*>(airsim_client_.get());
@@ -1006,8 +1062,9 @@ ros::Time AirsimROSWrapper::update_state()
         auto env_data = airsim_client_->simGetGroundTruthEnvironment(vehicle_ros->vehicle_name);
 
         if (airsim_mode_ == AIRSIM_MODE::DRONE) {
-            auto drone = static_cast<MultiRotorROS*>(vehicle_ros.get());
-            drone->curr_drone_state = get_multirotor_client()->getMultirotorState(vehicle_ros->vehicle_name);
+            auto drone = static_cast<RovROS*>(vehicle_ros.get());
+            auto rpc = static_cast<msr::airlib::RovRpcLibClient*>(airsim_client_.get());
+            drone->curr_drone_state = get_rov_client()->getRovState(vehicle_ros->vehicle_name);
 
             vehicle_time = airsim_timestamp_to_ros(drone->curr_drone_state.timestamp);
             if (!got_sim_time) {
@@ -1018,9 +1075,10 @@ ros::Time AirsimROSWrapper::update_state()
             vehicle_ros->gps_sensor_msg = get_gps_sensor_msg_from_airsim_geo_point(drone->curr_drone_state.gps_location);
             vehicle_ros->gps_sensor_msg.header.stamp = vehicle_time;
 
-            vehicle_ros->curr_odom = get_odom_msg_from_multirotor_state(drone->curr_drone_state);
+            vehicle_ros->curr_odom = get_odom_msg_from_rov_state(drone->curr_drone_state);
         }
         else {
+	    ROS_INFO("You hit car not drone!");
             auto car = static_cast<CarROS*>(vehicle_ros.get());
             car->curr_car_state = get_car_client()->getCarState(vehicle_ros->vehicle_name);
 
@@ -1131,12 +1189,15 @@ void AirsimROSWrapper::update_commands()
         auto& vehicle_ros = vehicle_name_ptr_pair.second;
 
         if (airsim_mode_ == AIRSIM_MODE::DRONE) {
-            auto drone = static_cast<MultiRotorROS*>(vehicle_ros.get());
+            auto drone = static_cast<RovROS*>(vehicle_ros.get());
+	    rpc = get_rov_client();
+	    rpc->moveByMotorPWMsAsync(drone->pwm_cmd, pwm_cmd_duration_);
+	    rpc->simSetWind(drone->current_dist);
 
             // send control commands from the last callback to airsim
             if (drone->has_vel_cmd) {
                 std::lock_guard<std::mutex> guard(drone_control_mutex_);
-                get_multirotor_client()->moveByVelocityAsync(drone->vel_cmd.x,
+                rpc->moveByVelocityAsync(drone->vel_cmd.x,
                                                              drone->vel_cmd.y,
                                                              drone->vel_cmd.z,
                                                              vel_cmd_duration_,

@@ -50,6 +50,8 @@ add_message_files(
   GimbalAngleQuatCmd.msg
   GPSYaw.msg
   VelCmd.msg
+  PwmCmd.msg
+  CurrentDist.msg
   VelCmdGroup.msg
   CarControls.msg
   CarState.msg
