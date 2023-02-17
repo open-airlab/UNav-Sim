@@ -11,6 +11,8 @@ STRICT_MODE_OFF //todo what does this do?
 
 #include "common/common_utils/FileSystem.hpp"
 #include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
+#include "vehicles/rov/api/RovRpcLibClient.hpp"
+#include "common/GeodeticConverter.hpp"
 
 #include <rclcpp/rclcpp.hpp>
 #include <tf2/LinearMath/Matrix3x3.h>
@@ -101,7 +103,7 @@ public:
     void check_reached_goal();
 
 private:
-    geodetic_converter::GeodeticConverter geodetic_converter_;
+    msr::airlib::GeodeticConverter geodetic_converter_;
     const bool use_eth_lib_for_geodetic_conv_;
 
     const std::shared_ptr<rclcpp::Node> nh_;

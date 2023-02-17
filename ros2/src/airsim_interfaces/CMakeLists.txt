@@ -26,6 +26,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/CarState.msg"
   "msg/Altimeter.msg"
   "msg/Environment.msg"
+  "msg/PwmCmd.msg"
+  "msg/CurrentDist.msg"
   "srv/SetGPSPosition.srv"
   "srv/Takeoff.srv"
   "srv/TakeoffGroup.srv"

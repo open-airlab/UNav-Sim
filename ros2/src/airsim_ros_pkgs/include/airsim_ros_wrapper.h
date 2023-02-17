@@ -85,6 +85,14 @@ struct VelCmd
     std::string vehicle_name;
 };
 
+
+struct PwmCmd {
+    float x;
+};
+
+
+
+
 struct GimbalCmd
 {
     std::string vehicle_name;
@@ -174,20 +182,26 @@ private:
         msr::airlib::CarApiBase::CarControls car_cmd_;
     };
 
-    class MultiRotorROS : public VehicleROS
+    class RovROS : public VehicleROS
     {
     public:
         /// State
-        msr::airlib::MultirotorState curr_drone_state_;
+        msr::airlib::RovState curr_drone_state_;
 
         rclcpp::Subscription<airsim_interfaces::msg::VelCmd>::SharedPtr vel_cmd_body_frame_sub_;
         rclcpp::Subscription<airsim_interfaces::msg::VelCmd>::SharedPtr vel_cmd_world_frame_sub_;
+	
+	//Rov sensors
+	rclcpp::Subscription<airsim_interfaces::msg::PwmCmd>::SharedPtr vel_cmd_body_frame_sub_;
+        rclcpp::Subscription<airsim_interfaces::msg::CurrentDist>::SharedPtr vel_cmd_world_frame_sub_;
 
         rclcpp::Service<airsim_interfaces::srv::Takeoff>::SharedPtr takeoff_srvr_;
         rclcpp::Service<airsim_interfaces::srv::Land>::SharedPtr land_srvr_;
 
         bool has_vel_cmd_;
         VelCmd vel_cmd_;
+	std::vector<float> pwm_cmd = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        Vector3r current_dist;
     };
 
     /// ROS timer callbacks
@@ -198,7 +212,10 @@ private:
     /// ROS subscriber callbacks
     void vel_cmd_world_frame_cb(const airsim_interfaces::msg::VelCmd::SharedPtr msg, const std::string& vehicle_name);
     void vel_cmd_body_frame_cb(const airsim_interfaces::msg::VelCmd::SharedPtr msg, const std::string& vehicle_name);
-
+    
+    void pwm_cmd_cb(const airsim_interfaces::msg::PwmCmd::SharedPtr msg, const std::string& vehicle_name);
+    void current_dist_cb(const airsim_interfaces::msg::CurrentDist::SharedPtr msg, const std::string& vehicle_name);
+    
     void vel_cmd_group_body_frame_cb(const airsim_interfaces::msg::VelCmdGroup::SharedPtr msg);
     void vel_cmd_group_world_frame_cb(const airsim_interfaces::msg::VelCmdGroup::SharedPtr msg);
 
@@ -257,6 +274,7 @@ private:
     nav_msgs::msg::Odometry get_odom_msg_from_kinematic_state(const msr::airlib::Kinematics::State& kinematics_estimated) const;
     nav_msgs::msg::Odometry get_odom_msg_from_multirotor_state(const msr::airlib::MultirotorState& drone_state) const;
     nav_msgs::msg::Odometry get_odom_msg_from_car_state(const msr::airlib::CarApiBase::CarState& car_state) const;
+    nav_msgs::msg::Odometry get_odom_msg_from_rov_state(const msr::airlib::RovState& drone_state) const;
     airsim_interfaces::msg::CarState get_roscarstate_msg_from_car_state(const msr::airlib::CarApiBase::CarState& car_state) const;
     msr::airlib::Pose get_airlib_pose(const float& x, const float& y, const float& z, const msr::airlib::Quaternionr& airlib_quat) const;
     airsim_interfaces::msg::GPSYaw get_gps_msg_from_airsim_geo_point(const msr::airlib::GeoPoint& geo_point) const;
@@ -342,6 +360,7 @@ private:
 
     /// ROS params
     double vel_cmd_duration_;
+    double pwm_cmd_duration_;
 
     /// ROS Timers.
     rclcpp::TimerBase::SharedPtr airsim_img_response_timer_;
