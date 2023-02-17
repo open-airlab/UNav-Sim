@@ -315,7 +315,7 @@ private:
     // Utility methods to convert airsim_client_
     msr::airlib::MultirotorRpcLibClient* get_multirotor_client();
     msr::airlib::CarRpcLibClient* get_car_client();
-    msr::airlib::RovRpcLibClient* get_car_client();
+    msr::airlib::RovRpcLibClient* get_rov_client();
 
 private:
     ros::NodeHandle nh_;

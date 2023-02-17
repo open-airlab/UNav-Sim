@@ -1190,7 +1190,7 @@ void AirsimROSWrapper::update_commands()
 
         if (airsim_mode_ == AIRSIM_MODE::DRONE) {
             auto drone = static_cast<RovROS*>(vehicle_ros.get());
-	    rpc = get_rov_client();
+	    auto rpc = get_rov_client();
 	    rpc->moveByMotorPWMsAsync(drone->pwm_cmd, pwm_cmd_duration_);
 	    rpc->simSetWind(drone->current_dist);
 
