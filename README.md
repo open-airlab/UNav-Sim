@@ -37,6 +37,6 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 
 ## Running the simulation
 ```bash
-open the project using your IDE 
-Run and debug using Launch BlocksEditor(DebugGame)
+- open the project using your IDE 
+- Run and debug using Launch BlocksEditor(DebugGame)
 ```
