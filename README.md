@@ -28,10 +28,15 @@ We provide you scripts to automatically setup and build UNav-Sim:
 ./build.sh
 # use ./build.sh --debug to build in debug mode
 ```
-## Running the simulation
+## Setting up the UE5 environment
 ```bash
 cd ~/UNav-Sim/Unreal/Environments/Blocks
-right-click on Blocks.uproject ----> Unreal Engine Generate Project Files
+right-click on Blocks.uproject, select Unreal Engine Generate Project Files
+```
+
+
+## Running the simulation
+```bash
 open the project using your IDE 
 Run and debug using Launch BlocksEditor(DebugGame)
 ```
