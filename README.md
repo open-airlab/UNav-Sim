@@ -31,7 +31,7 @@ We provide you scripts to automatically setup and build UNav-Sim:
 ## Running the simulation
 ```bash
 cd ~/UNav-Sim/Unreal/Environments/Blocks
-right-click on Blocks.uproject ----> generate project files
+right-click on Blocks.uproject ----> Unreal Engine Generate Project Files
 open the project using your IDE 
 Run and debug using Launch BlocksEditor(DebugGame)
 ```
