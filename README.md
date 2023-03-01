@@ -28,6 +28,11 @@ We provide you scripts to automatically setup and build UNav-Sim:
 ./build.sh
 # use ./build.sh --debug to build in debug mode
 ```
+**Troubleshooting:** If you're installing UNav-Sim from Ubuntu 22, then instead of `vulkan-utils` you will need to install `vulkan-tools`:
+```bash
+sudo apt update
+sudo apt install vulkan-tools
+```
 ## Setting up the UE5 environment
 ```bash
 cd ~/UNav-Sim/Unreal/Environments/Blocks
