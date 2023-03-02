@@ -201,5 +201,5 @@ popd >/dev/null
 set +x
 echo ""
 echo "************************************"
-echo "AirSim setup completed successfully!"
+echo "UNav-Sim setup completed successfully!"
 echo "************************************"
