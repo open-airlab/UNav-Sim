@@ -1,5 +1,8 @@
 # Welcome to UNav-Sim!
 
+![UNavSim_logo](UNavSim_logo.png)
+
+
 # Installation
 UNav-Sim relies in Unreal Engine 5 for generating realistic renderings. First, install UE5 and then proceed to install UNav-Sim
 
