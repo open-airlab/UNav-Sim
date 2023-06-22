@@ -9,8 +9,8 @@ Are you fascinated by underwater robotics and want to explore the depths of the 
 
 ## Key Features:
 - **High-fidelity rendering:** Highest fidelty rendering engine using **Unreal Engine 5 (UE5)**.
-- **Simulation and control:** Implement and test advanced algorithms for control, navigation, and vision in a simulated underwater setting.
-- **ROS1 and ROS2 integration:** UNav-Sim seamlessly integrates with **ROS (Robot Operating System)**, allowing you to leverage its robust ecosystem for developing and testing underwater robotics applications.
+- **Underwater physics and robot models:** Underwater physics and robot models are implemented.
+- **ROS1 and ROS2 integration:** Implement your control and navigation algorithms as ROS packages **ROS (Robot Operating System)**
 
 Discover a wide range of possibilities with UNav-Sim, from exploring underwater terrains to designing and testing autonomous underwater vehicles (AUVs). Whether you're a student, researcher, or hobbyist, this powerful tool will accelerate your learning and experimentation process.
 
@@ -18,7 +18,7 @@ Join the underwater robotics revolution and unleash your creativity with UNav-Si
 
 To get started, visit our [GitHub repository]([https://github.com/your-username/UNav-Sim](https://github.com/open-airlab/UNav-Sim)) and dive into the world of underwater robotics.
 
-\#UnderwaterRobotics #Simulation #UNavSim #UE5 #AirSim #ROS #AutonomousUnderwaterVehicles #Robotics
+\#UnderwaterRobotics #Simulation #UNavSim #UE5 #ROS #AutonomousUnderwaterVehicles #Robotics
 
 
 # Installation
