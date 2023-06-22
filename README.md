@@ -18,8 +18,6 @@ Join the underwater robotics revolution and unleash your creativity with UNav-Si
 
 To get started, visit our [GitHub repository]([https://github.com/your-username/UNav-Sim](https://github.com/open-airlab/UNav-Sim)) and dive into the world of underwater robotics.
 
-\#UnderwaterRobotics #Simulation #UNavSim #UE5 #ROS #AutonomousUnderwaterVehicles #Robotics
-
 
 # Installation
 UNav-Sim relies in Unreal Engine 5 for generating realistic renderings. First, install UE5 and then proceed to install UNav-Sim
