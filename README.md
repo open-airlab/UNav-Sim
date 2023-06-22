@@ -65,6 +65,10 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 - Run and debug using Launch BlocksEditor(DebugGame)
 ```
 
+
+## UNav-Sim Documentation (COMING SOON)
+Details will be uploaded soon with the submitted paper for publication
+
 ## UNav-Sim ros navigation stack (COMING SOON)
 ....
 
