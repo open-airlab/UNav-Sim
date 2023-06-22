@@ -48,3 +48,6 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 - open the project using your IDE 
 - Run and debug using Launch BlocksEditor(DebugGame)
 ```
+
+
+< If you find this repository useful, consider giving it a star! It's a great way for me to know that the project is valuable and encourages me to continue maintaining and improving it. Thank you for your support! 🌟 -->
