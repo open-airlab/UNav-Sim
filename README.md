@@ -1,4 +1,4 @@
-# 🌊🤖 Introducing UNav-Sim: The Ultimate Underwater Robotics Simulator! 🚀🔬
+# 🌊🤖 Introducing UNav-Sim: The Ultimate Underwater Robotics Simulator! 🚀
 
 ![UNavSim_logo](UNavSim_logo.png)
 
@@ -14,7 +14,7 @@ Are you fascinated by underwater robotics and want to explore the depths of the 
 
 Discover a wide range of possibilities with UNav-Sim, from exploring underwater terrains to designing and testing autonomous underwater vehicles (AUVs). Whether you're a student, researcher, or hobbyist, this powerful tool will accelerate your learning and experimentation process.
 
-Join the underwater robotics revolution and unleash your creativity with UNav-Sim! 🌊🤖💡
+Join the underwater robotics revolution and unleash your creativity with UNav-Sim! 🌊🤖
 
 To get started, visit our [GitHub repository](https://github.com/your-username/UNav-Sim) and dive into the world of underwater robotics.
 
