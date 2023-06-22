@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>PX4/MavLink Logging - AirSim</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "PX4/MavLink Logging";
+        var mkdocs_page_input_path = "pages/colosseum/px4_logging.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> AirSim
+        </a>
+        <div class="version">
+          master
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../README.md">Home</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="../../../CHANGELOG.md">Changelog</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Building AirSim</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../use_precompiled.md">Download Binaries</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_windows.md">Build on Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_linux.md">Build on Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_macos.md">Build on macOS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../docker_ubuntu.md">Docker on Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../azure.md">AirSim on Azure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_custenv.md">Custom Unreal Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../Unity.md">AirSim with Unity</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../custom_unity_environments.md">Custom Unity Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unity_api_support.md">Unity APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_faq.md">FAQ</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Using AirSim</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../apis.md">Core APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../image_apis.md">Image APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../apis_cpp.md">C++ APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../api_docs/html/">API Reference Docs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../dev_workflow.md">Development Workflow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../settings.md">Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../camera_views.md">Camera Views</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../using_car.md">Car Mode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../remote_control.md">Remote Control</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../xbox_controller.md">XBox Controller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../steering_wheel_installation.md">Steering Wheel</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../multi_vehicle.md">Multiple Vehicles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Sensors</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../../sensors.md">Sensors</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../lidar.md">LIDAR</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../distance_sensor.md">Distance Sensor</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../InfraredCamera.md">Infrared Camera</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../airsim_ros_pkgs.md">ROS: AirSim ROS Wrapper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../airsim_tutorial_pkgs.md">ROS: AirSim Tutorial Packages</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../gazebo_drone.md">Import Gazebo models</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../retexturing.md">Domain Randomization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../meshes.md">Mesh Vertex Buffers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../playback.md">Playing Logs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../voxel_grid.md">Voxel Grid Generator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../event_sim.md">Event camera</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../design.md">Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../code_structure.md">Code Structure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../adding_new_apis.md">Adding new APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../modify_recording_data.md">Modifying Recording Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../coding_guidelines.md">Coding Guidelines</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../flight_controller.md">Flight Controller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../simple_flight.md">Simple Flight</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../hello_drone.md">Hello Drone</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">External Flight Controllers</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">MavLink and PX4</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../../px4_setup.md">PX4 Setup for AirSim</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_sitl.md">PX4 in SITL</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_sitl_wsl2.md">PX4 SITL with WSL 2</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_lockstep.md">PX4 Lockstep</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_multi_vehicle.md">PX4 Multi-vehicle in SITL</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://youtu.be/1oY8Qu5maQQ">AirSim with Pixhawk</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://youtu.be/HNWdYrtw3f0">PX4 Setup with AirSim</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://www.youtube.com/watch?v=d_FyjKDWQfc&feature=youtu.be">Debugging Attitude Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://github.com/Microsoft/AirSim/wiki/Intercepting-MavLink-messages">Intercepting MavLink Messages</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://github.com/Microsoft/AirSim/wiki/Rapid-Descent-on-PX4-drones">Rapid Descent on PX4 Drones</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_build.md">Building PX4</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_logging.md">PX4/MavLink Logging</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../log_viewer.md">MavLink LogViewer</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../mavlinkcom.md">MavLinkCom</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../mavlinkcom_mocap.md">MavLink MoCap</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">ArduPilot</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/building-the-code.html">ArduPilot SITL Setup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/sitl-with-airsim.html">AirSim & ArduPilot</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_upgrade.md">Upgrading Unreal</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../upgrade_apis.md">Upgrading APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../upgrade_settings.md">Upgrading Settings</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributed Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../reinforcement_learning.md">Reinforcement Learning</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://www.youtube.com/watch?v=y09VbdQWvQY">Using Environments from Marketplace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/simondlevy/AirSimTensorFlow">Simple Collision Avoidance</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://aka.ms/AutonomousDrivingCookbook">Autonomous Driving on Azure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/hexacopter">Building Hexacopter</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo">Moving on Path Demo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../point_clouds.md">Building Point Clouds</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../drone_survey.md">Surveying Using Drone</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../orbit.md">Orbit Trajectory</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://youtu.be/Bp86WiLUC80">Importing a custom multirotor mesh</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../object_detection.md">Object Detection</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://youtu.be/ZonkdMcwXH4">AirSim with MAVROS and PX4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Misc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../custom_drone.md">AirSim on Real Drones</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../cmake_linux.md">Installing cmake on Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../hard_drive.md">Tips for Busy HDD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../pfm.md">pfm format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_proj.md">Setting up Unreal Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_blocks.md">Blocks Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../who_is_using.md">Who is Using AirSim</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../working_with_plugin_contents.md">Working with UE Plugin Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/technion">Formula Student Technion Self-drive</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Support</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../faq.md">FAQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../SUPPORT.md">Support</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../create_issue.md">Create Issue</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../CONTRIBUTING.md">Contribute</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">AirSim</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li>PX4/MavLink Logging</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/microsoft/airsim/edit/master/docs/pages/colosseum/px4_logging.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="px4mavlink-logging">PX4/MavLink Logging<a class="headerlink" href="#px4mavlink-logging" title="Permanent link">#</a></h1>
+<p>Thanks to <a href="https://github.com/clovett">Chris Lovett</a> for developing various tools for PX4/MavLink logging mentioned on this page!</p>
+<h2 id="logging-mavlink-messages">Logging MavLink Messages<a class="headerlink" href="#logging-mavlink-messages" title="Permanent link">#</a></h2>
+<p>AirSim can capture mavlink log files if you add the following to the PX4 section of your <code>settings.json</code> file:</p>
+<pre class="highlight"><code class="language-json">{
+    "SettingsVersion": 1.2,
+    "SimMode": "Multirotor",
+    "Vehicles": {
+        "PX4": {
+            ...,
+            "Logs": "c:/temp/mavlink"
+        }
+    }
+}</code></pre>
+<p>AirSim will create a timestamped log file in this folder for each "armed/disarmed" flight session.</p>
+<p>You will then see log files organized by date in d:\temp\logs, specifically *input.mavlink and *output.mavlink files.</p>
+<h2 id="mavlink-logviewer">MavLink LogViewer<a class="headerlink" href="#mavlink-logviewer" title="Permanent link">#</a></h2>
+<p>For MavLink enabled drones, you can also use our <a href="../log_viewer/">Log Viewer</a> to visualize the streams of data.
+If you enable this form of realtime logging you should not use the "Logs" setting above, these two forms of logging
+are mutually exclusive.</p>
+<h2 id="px4-log-in-sitl-mode">PX4 Log in SITL Mode<a class="headerlink" href="#px4-log-in-sitl-mode" title="Permanent link">#</a></h2>
+<p>In SITL mode, please a log file is produced when drone is armed. The SITL terminal will contain the path to the log file, it should look something like this
+<pre class="highlight"><code>INFO  [logger] Opened log file: rootfs/fs/microsd/log/2017-03-27/20_02_49.ulg</code></pre></p>
+<h2 id="px4-log-in-hitl-mode">PX4 Log in HITL Mode<a class="headerlink" href="#px4-log-in-hitl-mode" title="Permanent link">#</a></h2>
+<p>If you are using Pixhawk hardware in HIL mode, then set parameter <code>SYS_LOGGER=1</code>
+using QGroundControl. PX4 will write log file on device which you can download at later date using QGroundControl.</p>
+<h2 id="debugging-a-bad-flight">Debugging a bad flight<a class="headerlink" href="#debugging-a-bad-flight" title="Permanent link">#</a></h2>
+<p>You can use these *.mavlink log files to debug a bad flight using the <a href="../log_viewer/">LogViewer</a>.
+For example, AirSim/PX4 flight may misbehave if you run it on an under powered computer.
+The following shows what might happen in that situation.</p>
+<p><img alt="screenshot" src="images/px4_debugging.png" /></p>
+<p>In this flight we ran a simple <code>commander takeoff</code> test as performed
+by <code>PythonClient/multirotor/stability_test.py</code> and the flight started off fine, but then went crazy at the end and the drone crashed.  So why is that?  What can the log file show?</p>
+<p>Here we've plotted the following 5 metrics:
+- <code>hil_gps.alt</code> - the simulated altitude sent from AirSim to PX4
+- <code>telemetry.update_rate</code> - the rate AirSim is performing the critical drone update loop in updates per second.
+- <code>telemetry.update_time</code> - the average time taken inside AirSim performing the critical drone update loop.
+- <code>telemetry.actuation_delay</code> - this is a very interesting metric measuring how long it takes PX4 to send back updated actuator controls message (motor power)
+- <code>actuator_controls.0</code> - the actuator controls signal from PX4 for the first rotor.</p>
+<p>What we see then with these metrics is that things started off nicely, with nice flat altitude, high update rate in the 275 to 300 fps range, and a nice low update time inside AirSim around 113 microseconds, and a nice low actuation delay in the round trip from PX4.  The actuator controls also stabilize quickly to a nice flat line.</p>
+<p>But then the update_time starts to climb, at the same time the actuation_delay climbs and we see a little tip in actuator_controls.
+This dip should not happen, the PX4 is panicking over loss of update rate but it recovers.</p>
+<p>But then we see actuator controls go crazy, a huge spike in actuation delay, and around this time we see a message from AirSim saying <code>lockstep disabled</code>.  A delay over 100 millisecond triggers AirSim into jumping out of lockstep mode and the PX4 goes nuts and the drone crashes.</p>
+<p>The button line is that if a simple <code>takeoff</code> cannot maintain steady smooth flight and you see these kinds of spikes and uneven update rates
+then it means you are running AirSim on a computer that does not have enough horsepower.</p>
+<p>This is what a simple takeoff and hover and land should look like:</p>
+<p><img alt="nice" src="images/px4_nice.png" /></p>
+<p>Here you see the <code>update_rate</code> sticking the target of 333 updates per second.
+You also see the <code>update_time</code> a nice flat 39 microseconds and the <code>actuator_delay</code>
+somewhere between 1.1 and 1.7 milliseconds, and the resulting <code>actuator_controls</code>
+a lovely flat line.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2021 Microsoft Research</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/microsoft/airsim" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>

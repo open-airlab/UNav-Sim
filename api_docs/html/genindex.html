@@ -15,6 +15,7 @@
         <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -25,14 +26,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> airsim
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            airsim
           </a>
               <div class="version">
                 1.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -53,8 +58,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Index</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -171,7 +176,11 @@
       <li><a href="index.html#airsim.types.CameraInfo">CameraInfo (class in airsim.types)</a>
 </li>
       <li><a href="index.html#airsim.types.MultirotorState.can_arm">can_arm (airsim.types.MultirotorState attribute)</a>
+
+      <ul>
+        <li><a href="index.html#airsim.types.TiltrotorState.can_arm">(airsim.types.TiltrotorState attribute)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#airsim.client.VehicleClient.cancelLastTask">cancelLastTask() (airsim.client.VehicleClient method)</a>
 </li>
       <li><a href="index.html#airsim.client.CarClient">CarClient (class in airsim.client)</a>
@@ -184,6 +193,8 @@
 
       <ul>
         <li><a href="index.html#airsim.types.MultirotorState.collision">(airsim.types.MultirotorState attribute)</a>
+</li>
+        <li><a href="index.html#airsim.types.TiltrotorState.collision">(airsim.types.TiltrotorState attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -332,10 +343,10 @@
 </li>
       <li><a href="index.html#airsim.client.VehicleClient.getImuData">getImuData() (airsim.client.VehicleClient method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#airsim.client.VehicleClient.getLidarData">getLidarData() (airsim.client.VehicleClient method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="index.html#airsim.client.VehicleClient.getMagnetometerData">getMagnetometerData() (airsim.client.VehicleClient method)</a>
 </li>
       <li><a href="index.html#airsim.client.VehicleClient.getMinRequiredClientVersion">getMinRequiredClientVersion() (airsim.client.VehicleClient method)</a>
@@ -367,7 +378,11 @@
       <li><a href="index.html#airsim.client.MultirotorClient.goHomeAsync">goHomeAsync() (airsim.client.MultirotorClient method)</a>
 </li>
       <li><a href="index.html#airsim.types.MultirotorState.gps_location">gps_location (airsim.types.MultirotorState attribute)</a>
+
+      <ul>
+        <li><a href="index.html#airsim.types.TiltrotorState.gps_location">(airsim.types.TiltrotorState attribute)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#airsim.types.GpsData">GpsData (class in airsim.types)</a>
 </li>
       <li><a href="index.html#airsim.types.EnvironmentState.gravity">gravity (airsim.types.EnvironmentState attribute)</a>
@@ -457,9 +472,13 @@
       <ul>
         <li><a href="index.html#airsim.types.MultirotorState.kinematics_estimated">(airsim.types.MultirotorState attribute)</a>
 </li>
+        <li><a href="index.html#airsim.types.TiltrotorState.kinematics_estimated">(airsim.types.TiltrotorState attribute)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#airsim.types.TiltrotorState.kinematics_true">kinematics_true (airsim.types.TiltrotorState attribute)</a>
+</li>
       <li><a href="index.html#airsim.types.KinematicsState">KinematicsState (class in airsim.types)</a>
 </li>
       <li><a href="index.html#airsim.types.PIDGains.kP">kP (airsim.types.PIDGains attribute)</a>
@@ -475,15 +494,19 @@
       <li><a href="index.html#airsim.types.LandedState.Landed">Landed (airsim.types.LandedState attribute)</a>
 </li>
       <li><a href="index.html#airsim.types.MultirotorState.landed_state">landed_state (airsim.types.MultirotorState attribute)</a>
+
+      <ul>
+        <li><a href="index.html#airsim.types.TiltrotorState.landed_state">(airsim.types.TiltrotorState attribute)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#airsim.types.LandedState">LandedState (class in airsim.types)</a>
 </li>
       <li><a href="index.html#airsim.types.GeoPoint.latitude">latitude (airsim.types.GeoPoint attribute)</a>
 </li>
-      <li><a href="index.html#airsim.types.LidarData">LidarData (class in airsim.types)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="index.html#airsim.types.LidarData">LidarData (class in airsim.types)</a>
+</li>
       <li><a href="index.html#airsim.types.ImuData.linear_acceleration">linear_acceleration (airsim.types.ImuData attribute)</a>
 
       <ul>
@@ -724,15 +747,27 @@
       <li><a href="index.html#airsim.types.WeatherParameter.Rain">Rain (airsim.types.WeatherParameter attribute)</a>
 </li>
       <li><a href="index.html#airsim.types.MultirotorState.rc_data">rc_data (airsim.types.MultirotorState attribute)</a>
+
+      <ul>
+        <li><a href="index.html#airsim.types.TiltrotorState.rc_data">(airsim.types.TiltrotorState attribute)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#airsim.types.RCData">RCData (class in airsim.types)</a>
 </li>
       <li><a href="index.html#airsim.utils.read_pfm">read_pfm() (in module airsim.utils)</a>
 </li>
       <li><a href="index.html#airsim.types.MultirotorState.ready">ready (airsim.types.MultirotorState attribute)</a>
+
+      <ul>
+        <li><a href="index.html#airsim.types.TiltrotorState.ready">(airsim.types.TiltrotorState attribute)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#airsim.types.MultirotorState.ready_message">ready_message (airsim.types.MultirotorState attribute)</a>
+
+      <ul>
+        <li><a href="index.html#airsim.types.TiltrotorState.ready_message">(airsim.types.TiltrotorState attribute)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#airsim.types.DetectionInfo.relative_pose">relative_pose (airsim.types.DetectionInfo attribute)</a>
 
       <ul>
@@ -764,8 +799,14 @@
       <li><a href="index.html#airsim.client.MultirotorClient.rotateToYawAsync">rotateToYawAsync() (airsim.client.MultirotorClient method)</a>
 </li>
       <li><a href="index.html#airsim.types.RotorStates.rotors">rotors (airsim.types.RotorStates attribute)</a>
+
+      <ul>
+        <li><a href="index.html#airsim.types.RotorTiltableStates.rotors">(airsim.types.RotorTiltableStates attribute)</a>
 </li>
+      </ul></li>
       <li><a href="index.html#airsim.types.RotorStates">RotorStates (class in airsim.types)</a>
+</li>
+      <li><a href="index.html#airsim.types.RotorTiltableStates">RotorTiltableStates (class in airsim.types)</a>
 </li>
       <li><a href="index.html#airsim.types.CarState.rpm">rpm (airsim.types.CarState attribute)</a>
 </li>
@@ -903,6 +944,8 @@
 </li>
       <li><a href="index.html#airsim.client.VehicleClient.simSetDistortionParams">simSetDistortionParams() (airsim.client.VehicleClient method)</a>
 </li>
+      <li><a href="index.html#airsim.client.VehicleClient.simSetExtForce">simSetExtForce() (airsim.client.VehicleClient method)</a>
+</li>
       <li><a href="index.html#airsim.client.VehicleClient.simSetFilmbackSettings">simSetFilmbackSettings() (airsim.client.VehicleClient method)</a>
 </li>
       <li><a href="index.html#airsim.client.VehicleClient.simSetFocalLength">simSetFocalLength() (airsim.client.VehicleClient method)</a>
@@ -997,6 +1040,8 @@
         <li><a href="index.html#airsim.types.RCData.throttle">(airsim.types.RCData attribute)</a>
 </li>
       </ul></li>
+      <li><a href="index.html#airsim.types.TiltrotorState">TiltrotorState (class in airsim.types)</a>
+</li>
       <li><a href="index.html#airsim.types.BarometerData.time_stamp">time_stamp (airsim.types.BarometerData attribute)</a>
 
       <ul>
@@ -1025,6 +1070,10 @@
         <li><a href="index.html#airsim.types.RCData.timestamp">(airsim.types.RCData attribute)</a>
 </li>
         <li><a href="index.html#airsim.types.RotorStates.timestamp">(airsim.types.RotorStates attribute)</a>
+</li>
+        <li><a href="index.html#airsim.types.RotorTiltableStates.timestamp">(airsim.types.RotorTiltableStates attribute)</a>
+</li>
+        <li><a href="index.html#airsim.types.TiltrotorState.timestamp">(airsim.types.TiltrotorState attribute)</a>
 </li>
       </ul></li>
   </ul></td>

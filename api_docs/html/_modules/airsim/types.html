@@ -15,6 +15,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -25,14 +26,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> airsim
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            airsim
           </a>
               <div class="version">
                 1.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -53,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>airsim.types</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">airsim.types</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -473,6 +478,22 @@
     <span class="n">timestamp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">rotors</span> <span class="o">=</span> <span class="p">[]</span></div>
 
+<div class="viewcode-block" id="TiltrotorState"><a class="viewcode-back" href="../../index.html#airsim.types.TiltrotorState">[docs]</a><span class="k">class</span> <span class="nc">TiltrotorState</span><span class="p">(</span><span class="n">MsgpackMixin</span><span class="p">):</span>
+    <span class="n">collision</span> <span class="o">=</span> <span class="n">CollisionInfo</span><span class="p">()</span>
+    <span class="n">kinematics_estimated</span> <span class="o">=</span> <span class="n">KinematicsState</span><span class="p">()</span>
+    <span class="n">kinematics_true</span> <span class="o">=</span> <span class="n">KinematicsState</span><span class="p">()</span>
+    <span class="n">gps_location</span> <span class="o">=</span> <span class="n">GeoPoint</span><span class="p">()</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">landed_state</span> <span class="o">=</span> <span class="n">LandedState</span><span class="o">.</span><span class="n">Landed</span>
+    <span class="n">rc_data</span> <span class="o">=</span> <span class="n">RCData</span><span class="p">()</span>
+    <span class="n">ready</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">ready_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">can_arm</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="RotorTiltableStates"><a class="viewcode-back" href="../../index.html#airsim.types.RotorTiltableStates">[docs]</a><span class="k">class</span> <span class="nc">RotorTiltableStates</span><span class="p">(</span><span class="n">MsgpackMixin</span><span class="p">):</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint64</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">rotors</span> <span class="o">=</span> <span class="p">[]</span></div>
+
 <div class="viewcode-block" id="ProjectionMatrix"><a class="viewcode-back" href="../../index.html#airsim.types.ProjectionMatrix">[docs]</a><span class="k">class</span> <span class="nc">ProjectionMatrix</span><span class="p">(</span><span class="n">MsgpackMixin</span><span class="p">):</span>
     <span class="n">matrix</span> <span class="o">=</span> <span class="p">[]</span></div>
 
@@ -546,7 +567,7 @@
     <span class="n">relative_pose</span> <span class="o">=</span> <span class="n">Pose</span><span class="p">()</span></div>
     
 <div class="viewcode-block" id="PIDGains"><a class="viewcode-back" href="../../index.html#airsim.types.PIDGains">[docs]</a><span class="k">class</span> <span class="nc">PIDGains</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Struct to store values of PID gains. Used to transmit controller gain values while instantiating</span>
 <span class="sd">    AngleLevel/AngleRate/Velocity/PositionControllerGains objects.</span>
 
@@ -564,7 +585,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">kp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ki</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kd</span><span class="p">]</span></div></div>
 
 <div class="viewcode-block" id="AngleRateControllerGains"><a class="viewcode-back" href="../../index.html#airsim.types.AngleRateControllerGains">[docs]</a><span class="k">class</span> <span class="nc">AngleRateControllerGains</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Struct to contain controller gains used by angle level PID controller</span>
 
 <span class="sd">    Attributes:</span>
@@ -583,7 +604,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">roll_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaw_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">roll_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaw_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">roll_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaw_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">]</span></div></div>
 
 <div class="viewcode-block" id="AngleLevelControllerGains"><a class="viewcode-back" href="../../index.html#airsim.types.AngleLevelControllerGains">[docs]</a><span class="k">class</span> <span class="nc">AngleLevelControllerGains</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Struct to contain controller gains used by angle rate PID controller</span>
 
 <span class="sd">    Attributes:</span>
@@ -602,7 +623,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">roll_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaw_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">roll_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaw_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">roll_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pitch_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaw_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">]</span></div></div>
 
 <div class="viewcode-block" id="VelocityControllerGains"><a class="viewcode-back" href="../../index.html#airsim.types.VelocityControllerGains">[docs]</a><span class="k">class</span> <span class="nc">VelocityControllerGains</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Struct to contain controller gains used by velocity PID controller</span>
 
 <span class="sd">    Attributes:</span>
@@ -621,7 +642,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_gains</span><span class="o">.</span><span class="n">kp</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_gains</span><span class="o">.</span><span class="n">ki</span><span class="p">],</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">x_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z_gains</span><span class="o">.</span><span class="n">kd</span><span class="p">]</span></div></div>
 
 <div class="viewcode-block" id="PositionControllerGains"><a class="viewcode-back" href="../../index.html#airsim.types.PositionControllerGains">[docs]</a><span class="k">class</span> <span class="nc">PositionControllerGains</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Struct to contain controller gains used by position PID controller</span>
 
 <span class="sd">    Attributes:</span>

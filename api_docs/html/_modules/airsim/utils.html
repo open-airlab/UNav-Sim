@@ -15,6 +15,7 @@
         <script src="../../_static/underscore.js"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -25,14 +26,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> airsim
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            airsim
           </a>
               <div class="version">
                 1.8.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -53,9 +58,9 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">Module code</a> &raquo;</li>
-      <li>airsim.utils</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">airsim.utils</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -109,7 +114,7 @@
 
     
 <div class="viewcode-block" id="write_file"><a class="viewcode-back" href="../../index.html#airsim.utils.write_file">[docs]</a><span class="k">def</span> <span class="nf">write_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">bstr</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write binary data to file.</span>
 <span class="sd">    Used for writing compressed PNG images</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -164,7 +169,7 @@
 
     
 <div class="viewcode-block" id="wait_key"><a class="viewcode-back" href="../../index.html#airsim.utils.wait_key">[docs]</a><span class="k">def</span> <span class="nf">wait_key</span><span class="p">(</span><span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Wait for a key press on the console and return it. &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Wait for a key press on the console and return it. &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">message</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
         <span class="nb">print</span> <span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
@@ -192,7 +197,7 @@
 
     
 <div class="viewcode-block" id="read_pfm"><a class="viewcode-back" href="../../index.html#airsim.utils.read_pfm">[docs]</a><span class="k">def</span> <span class="nf">read_pfm</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Read a pfm file &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Read a pfm file &quot;&quot;&quot;</span>
     <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span>
 
     <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>
@@ -235,7 +240,7 @@
 
     
 <div class="viewcode-block" id="write_pfm"><a class="viewcode-back" href="../../index.html#airsim.utils.write_pfm">[docs]</a><span class="k">def</span> <span class="nf">write_pfm</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Write a pfm file &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Write a pfm file &quot;&quot;&quot;</span>
     <span class="n">file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span>
 
     <span class="n">color</span> <span class="o">=</span> <span class="kc">None</span>
@@ -266,7 +271,7 @@
 
     
 <div class="viewcode-block" id="write_png"><a class="viewcode-back" href="../../index.html#airsim.utils.write_png">[docs]</a><span class="k">def</span> <span class="nf">write_png</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; image must be numpy array H X W X channels</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; image must be numpy array H X W X channels</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">cv2</span>      <span class="c1"># pip install opencv-python</span>
 

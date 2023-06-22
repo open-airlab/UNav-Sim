@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../../../img/favicon.ico" />
+    <title>Upgrading to Unreal Engine 4.27 - AirSim</title>
+    <link rel="stylesheet" href="../../../css/theme.css" />
+    <link rel="stylesheet" href="../../../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Upgrading to Unreal Engine 4.27";
+        var mkdocs_page_input_path = "pages/colosseum/unreal_upgrade.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../../.." class="icon icon-home"> AirSim
+        </a>
+        <div class="version">
+          master
+        </div><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Home</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../README.md">Home</a>
+                  </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="../../../CHANGELOG.md">Changelog</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Building AirSim</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../use_precompiled.md">Download Binaries</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_windows.md">Build on Windows</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_linux.md">Build on Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_macos.md">Build on macOS</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../docker_ubuntu.md">Docker on Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../azure.md">AirSim on Azure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_custenv.md">Custom Unreal Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../Unity.md">AirSim with Unity</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../custom_unity_environments.md">Custom Unity Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unity_api_support.md">Unity APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../build_faq.md">FAQ</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Using AirSim</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../apis.md">Core APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../image_apis.md">Image APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../apis_cpp.md">C++ APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../../api_docs/html/">API Reference Docs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../dev_workflow.md">Development Workflow</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../settings.md">Settings</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../camera_views.md">Camera Views</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../using_car.md">Car Mode</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../remote_control.md">Remote Control</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../xbox_controller.md">XBox Controller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../steering_wheel_installation.md">Steering Wheel</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../multi_vehicle.md">Multiple Vehicles</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">Sensors</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../../sensors.md">Sensors</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../lidar.md">LIDAR</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../distance_sensor.md">Distance Sensor</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../InfraredCamera.md">Infrared Camera</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../airsim_ros_pkgs.md">ROS: AirSim ROS Wrapper</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../airsim_tutorial_pkgs.md">ROS: AirSim Tutorial Packages</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../gazebo_drone.md">Import Gazebo models</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../retexturing.md">Domain Randomization</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../meshes.md">Mesh Vertex Buffers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../playback.md">Playing Logs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../voxel_grid.md">Voxel Grid Generator</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../event_sim.md">Event camera</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Design</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../design.md">Architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../code_structure.md">Code Structure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../adding_new_apis.md">Adding new APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../modify_recording_data.md">Modifying Recording Data</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../coding_guidelines.md">Coding Guidelines</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../flight_controller.md">Flight Controller</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../simple_flight.md">Simple Flight</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../hello_drone.md">Hello Drone</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">External Flight Controllers</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="#">MavLink and PX4</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="../../../px4_setup.md">PX4 Setup for AirSim</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_sitl.md">PX4 in SITL</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_sitl_wsl2.md">PX4 SITL with WSL 2</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_lockstep.md">PX4 Lockstep</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_multi_vehicle.md">PX4 Multi-vehicle in SITL</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://youtu.be/1oY8Qu5maQQ">AirSim with Pixhawk</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://youtu.be/HNWdYrtw3f0">PX4 Setup with AirSim</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://www.youtube.com/watch?v=d_FyjKDWQfc&feature=youtu.be">Debugging Attitude Estimation</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://github.com/Microsoft/AirSim/wiki/Intercepting-MavLink-messages">Intercepting MavLink Messages</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://github.com/Microsoft/AirSim/wiki/Rapid-Descent-on-PX4-drones">Rapid Descent on PX4 Drones</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_build.md">Building PX4</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../px4_logging.md">PX4/MavLink Logging</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../log_viewer.md">MavLink LogViewer</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../mavlinkcom.md">MavLinkCom</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="../../../mavlinkcom_mocap.md">MavLink MoCap</a>
+                </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="#">ArduPilot</a>
+    <ul>
+                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/building-the-code.html">ArduPilot SITL Setup</a>
+                </li>
+                <li class="toctree-l2"><a class="" href="https://ardupilot.org/dev/docs/sitl-with-airsim.html">AirSim & ArduPilot</a>
+                </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Upgrading</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_upgrade.md">Upgrading Unreal</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../upgrade_apis.md">Upgrading APIs</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../upgrade_settings.md">Upgrading Settings</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Contributed Tutorials</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../reinforcement_learning.md">Reinforcement Learning</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://www.youtube.com/watch?v=y09VbdQWvQY">Using Environments from Marketplace</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/simondlevy/AirSimTensorFlow">Simple Collision Avoidance</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://aka.ms/AutonomousDrivingCookbook">Autonomous Driving on Azure</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/hexacopter">Building Hexacopter</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/moveOnPath-demo">Moving on Path Demo</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../point_clouds.md">Building Point Clouds</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../drone_survey.md">Surveying Using Drone</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../orbit.md">Orbit Trajectory</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://youtu.be/Bp86WiLUC80">Importing a custom multirotor mesh</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../object_detection.md">Object Detection</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://youtu.be/ZonkdMcwXH4">AirSim with MAVROS and PX4</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Misc</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../custom_drone.md">AirSim on Real Drones</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../cmake_linux.md">Installing cmake on Linux</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../hard_drive.md">Tips for Busy HDD</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../pfm.md">pfm format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_proj.md">Setting up Unreal Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../unreal_blocks.md">Blocks Environment</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../who_is_using.md">Who is Using AirSim</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../working_with_plugin_contents.md">Working with UE Plugin Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/Microsoft/AirSim/wiki/technion">Formula Student Technion Self-drive</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Support</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../../../faq.md">FAQ</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../SUPPORT.md">Support</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../create_issue.md">Create Issue</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="../../../CONTRIBUTING.md">Contribute</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../..">AirSim</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../.." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li>Upgrading to Unreal Engine 4.27</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/microsoft/airsim/edit/master/docs/pages/colosseum/unreal_upgrade.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="upgrading-to-unreal-engine-427">Upgrading to Unreal Engine 4.27<a class="headerlink" href="#upgrading-to-unreal-engine-427" title="Permanent link">#</a></h1>
+<p>These instructions apply if you are already using AirSim on Unreal Engine 4.25. If you have never installed AirSim, please see <a href="https://github.com/microsoft/airsim#how-to-get-it">How to get it</a>.</p>
+<p><strong>Caution:</strong> The below steps will delete any of your unsaved work in AirSim or Unreal folder.</p>
+<h2 id="do-this-first">Do this first<a class="headerlink" href="#do-this-first" title="Permanent link">#</a></h2>
+<h3 id="for-windows-users">For Windows Users<a class="headerlink" href="#for-windows-users" title="Permanent link">#</a></h3>
+<ol>
+<li>Install Visual Studio 2022 with VC++, Python and C#.</li>
+<li>Install UE 4.27 through Epic Games Launcher.</li>
+<li>Start <code>x64 Native Tools Command Prompt for VS 2022</code> and navigate to AirSim repo.</li>
+<li>Run <code>clean_rebuild.bat</code> to remove all unchecked/extra stuff and rebuild everything.</li>
+<li>See also <a href="../build_windows/">Build AirSim on Windows</a> for more information.</li>
+</ol>
+<h3 id="for-linux-users">For Linux Users<a class="headerlink" href="#for-linux-users" title="Permanent link">#</a></h3>
+<ol>
+<li>From your AirSim repo folder, run 'clean_rebuild.sh`.</li>
+<li>Rename or delete your existing folder for Unreal Engine.</li>
+<li>Follow step 1 and 2 to <a href="../build_linux/">install Unreal Engine 4.27</a>.</li>
+<li>See also <a href="../build_linux/">Build AirSim on Linux</a> for more information.</li>
+</ol>
+<h2 id="upgrading-your-custom-unreal-project">Upgrading Your Custom Unreal Project<a class="headerlink" href="#upgrading-your-custom-unreal-project" title="Permanent link">#</a></h2>
+<p>If you have your own Unreal project created in an older version of Unreal Engine then you need to upgrade your project to Unreal 4.27. To do this,</p>
+<ol>
+<li>Open .uproject file and look for the line <code>"EngineAssociation"</code> and make sure it reads like <code>"EngineAssociation": "4.27"</code>.</li>
+<li>Delete <code>Plugins/AirSim</code> folder in your Unreal project's folder.</li>
+<li>Go to your AirSim repo folder and copy <code>Unreal\Plugins</code> folder to your Unreal project's folder.</li>
+<li>Copy *.bat (or *.sh for Linux) from <code>Unreal\Environments\Blocks</code> to your project's folder.</li>
+<li>Run <code>clean.bat</code> (or <code>clean.sh</code> for Linux) followed by <code>GenerateProjectFiles.bat</code> (only for Windows).</li>
+</ol>
+<h2 id="faq">FAQ<a class="headerlink" href="#faq" title="Permanent link">#</a></h2>
+<h3 id="i-have-an-unreal-project-that-is-older-than-416-how-do-i-upgrade-it">I have an Unreal project that is older than 4.16. How do I upgrade it?<a class="headerlink" href="#i-have-an-unreal-project-that-is-older-than-416-how-do-i-upgrade-it" title="Permanent link">#</a></h3>
+<h4 id="option-1-just-recreate-project">Option 1: Just Recreate Project<a class="headerlink" href="#option-1-just-recreate-project" title="Permanent link">#</a></h4>
+<p>If your project doesn't have any code or assets other than environment you downloaded then you can also simply <a href="../unreal_custenv/">recreate the project in Unreal 4.27 Editor</a> and then copy Plugins folder from <code>AirSim/Unreal/Plugins</code>.</p>
+<h4 id="option-2-modify-few-files">Option 2: Modify Few Files<a class="headerlink" href="#option-2-modify-few-files" title="Permanent link">#</a></h4>
+<p>Unreal versions newer than Unreal 4.15 has breaking changes. So you need to modify your *.Build.cs and *.Target.cs which you can find in the <code>Source</code> folder of your Unreal project. So what are those changes? Below is the gist of it but you should really refer to <a href="https://forums.unrealengine.com/showthread.php?145757-C-4-16-Transition-Guide">Unreal's official 4.16 transition post</a>.</p>
+<h5 id="in-your-projects-targetcs">In your project's *.Target.cs<a class="headerlink" href="#in-your-projects-targetcs" title="Permanent link">#</a></h5>
+<ol>
+<li>
+<p>Change the contructor from, <code>public MyProjectTarget(TargetInfo Target)</code> to <code>public MyProjectTarget(TargetInfo Target) : base(Target)</code></p>
+</li>
+<li>
+<p>Remove <code>SetupBinaries</code> method if you have one and instead add following line in contructor above: <code>ExtraModuleNames.AddRange(new string[] { "MyProject" });</code></p>
+</li>
+</ol>
+<h5 id="in-your-projects-buildcs">In your project's *.Build.cs<a class="headerlink" href="#in-your-projects-buildcs" title="Permanent link">#</a></h5>
+<p>Change the constructor from <code>public MyProject(TargetInfo Target)</code> to <code>public MyProject(ReadOnlyTargetRules Target) : base(Target)</code>.</p>
+<h5 id="and-finally">And finally...<a class="headerlink" href="#and-finally" title="Permanent link">#</a></h5>
+<p>Follow above steps to continue the upgrade. The warning box might show only "Open Copy" button. Don't click that. Instead, click on More Options which will reveal more buttons. Choose <code>Convert-In-Place option</code>. <em>Caution:</em> Always keep backup of your project first! If you don't have anything nasty, in place conversion should go through and you are now on the new version of Unreal.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>Copyright &copy; 2021 Microsoft Research</p>
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/microsoft/airsim" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+  </span>
+</div>
+    <script>var base_url = '../../..';</script>
+    <script src="../../../js/theme_extra.js" defer></script>
+    <script src="../../../js/theme.js" defer></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" defer></script>
+      <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+      <script src="../../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
