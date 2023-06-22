@@ -59,7 +59,7 @@ namespace airlib
         //0 to 1 - will be scaled to 0 to max_speed
         void setControlSignal(real_T control_signal)
         {
-            control_signal_filter_.setInput(Utils::clip(control_signal, 0.0f, 1.0f));
+            control_signal_filter_.setInput(Utils::clip(control_signal, -1.0f, 1.0f));
         }
 
         Output getOutput() const
