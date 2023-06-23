@@ -77,7 +77,4 @@ Details will be uploaded soon with the submitted paper for publication
 
 
 ## **⭐ Please star this repository if you find it useful! ⭐**
-
-If you find this repository helpful, we kindly ask you to consider giving it a star. It's a great way for me to gauge its value and it also motivates me to continue maintaining and improving it. Your support is greatly appreciated!
-
 Thank you for using this project! 🌟
