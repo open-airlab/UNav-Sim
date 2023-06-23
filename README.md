@@ -1,4 +1,5 @@
-# 🌊🤖 Introducing UNav-Sim: The Ultimate Underwater Robotics Simulator! 🚀
+# 🌊🤖 Introducing UNav-Sim:
+# The Ultimate Underwater Robotics Simulator! 🚀
 
 ![UNavSim_logo](UNavSim_logo.png)
 
