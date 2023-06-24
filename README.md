@@ -10,9 +10,9 @@ Are you fascinated by underwater robotics and want to explore the depths of the 
 ## Key Features:
 - **Open-source** :heavy_check_mark:
 - **High-fidelity rendering using Unreal Engine 5** :heavy_check_mark:
-- **Underwater physics and robot models:** :heavy_check_mark:
+- **Underwater physics and robot models** :heavy_check_mark:
 - **Works on Linux and Windows OS** :heavy_check_mark:
-- **ROS1 and ROS2 support:** :heavy_check_mark:
+- **ROS1 and ROS2 support** :heavy_check_mark:
 
 Discover a wide range of possibilities with UNav-Sim, from exploring underwater terrains to designing and testing autonomous underwater vehicles (AUVs). Whether you're a student, researcher, or hobbyist, this powerful tool will accelerate your learning and experimentation process.
 
