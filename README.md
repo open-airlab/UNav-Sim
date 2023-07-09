@@ -3,7 +3,6 @@
 ![UNavSim_logo](UNavSim_logo.png)
 
 
-Are you fascinated by underwater robotics and want to explore the depths of the ocean from the comfort of your computer? Look no further! UNav-Sim is here to take you on an exciting underwater adventure.
 
 **UNav-Sim** is an open-source cutting-edge underwater robotics simulator tool that leverages the power of **Unreal Engine 5 (UE5)** and [AirSim](https://github.com/microsoft/AirSim) to provide highly detailed rendering and simulation capabilities. Whether you're a researcher, developer, or robotics enthusiast, UNav-Sim offers a platform for you to dive deep into the world of underwater robotics.
 
