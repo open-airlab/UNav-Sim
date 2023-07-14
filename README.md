@@ -18,9 +18,9 @@ Discover a wide range of possibilities with UNav-Sim, from exploring underwater 
 Join the underwater robotics revolution and unleash your creativity with UNav-Sim! 🌊🤖
 
 # Index 
-[1. Installation](https://github.com/open-airlab/UNav-Sim#installation)
-[2. Running the simulation]()
-[3. UNav-Sim ros navigation stack]()
+- [1. Installation](https://github.com/open-airlab/UNav-Sim#1-installation)
+- [2. Running the simulation](https://github.com/open-airlab/UNav-Sim#2-running-the-simulation)
+- [3. UNav-Sim ros navigation stack](https://github.com/open-airlab/UNav-Sim#3-unav-sim-ros-navigation-stack-coming-soon)
 
 # 1. Installation
 UNav-Sim relies in Unreal Engine 5 for generating realistic renderings. First, install UE5 and then proceed to install UNav-Sim
