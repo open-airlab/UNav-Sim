@@ -17,12 +17,15 @@ Discover a wide range of possibilities with UNav-Sim, from exploring underwater 
 
 Join the underwater robotics revolution and unleash your creativity with UNav-Sim! 🌊🤖
 
+# Index 
+[1. Installation](https://github.com/open-airlab/UNav-Sim#installation)
+[2. Running the simulation]()
+[3. UNav-Sim ros navigation stack]()
 
-
-# Installation
+# 1. Installation
 UNav-Sim relies in Unreal Engine 5 for generating realistic renderings. First, install UE5 and then proceed to install UNav-Sim
 
-## UE5
+## 1.1. UE5
 - Make sure you are [registered with Epic Games](https://docs.unrealengine.com/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/index.html). This is required to get source code access for Unreal Engine.
 
 - Clone Unreal 5.1 in your favorite folder and build it (this may take a while!)
@@ -35,7 +38,7 @@ cd UnrealEngine
 make
 ```
 
-## UNav-Sim
+## 1.2. UNav-Sim
 Clone this repo in your favourite folder:
 ```bash
 git clone git@github.com:open-airlab/UNav-Sim.git
@@ -52,14 +55,14 @@ We provide you scripts to automatically setup and build UNav-Sim:
 sudo apt update
 sudo apt install vulkan-tools
 ```
-## Setting up the UE5 environment
+## 1.3. Setting up the UE5 environment
 ```bash
 cd ~/UNav-Sim/Unreal/Environments/Blocks
 right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 ```
 
 
-## Running the simulation
+# 2. Running the simulation
 - Add the settings.json file to C:\Users\[username]\Documents\AirSim
 
 ```bash
@@ -68,13 +71,12 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 ```
 
 
-## UNav-Sim Documentation (COMING SOON)
-Details will be uploaded soon with the submitted paper for publication
-
-## UNav-Sim ros navigation stack (COMING SOON)
+# 3. UNav-Sim ros navigation stack (COMING SOON)
 ....
 
 
+## UNav-Sim Documentation (COMING SOON)
+Details will be uploaded soon with the submitted paper for publication
 
 ## **⭐ Please star this repository if you find it useful! ⭐**
 Thank you for using this project! 🌟
