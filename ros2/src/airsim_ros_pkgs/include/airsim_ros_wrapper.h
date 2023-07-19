@@ -1,3 +1,4 @@
+#define BOOST_BIND_NO_PLACEHOLDERS
 #include "common/common_utils/StrictMode.hpp"
 STRICT_MODE_OFF //todo what does this do?
 #ifndef RPCLIB_MSGPACK
@@ -5,6 +6,8 @@ STRICT_MODE_OFF //todo what does this do?
 #endif // !RPCLIB_MSGPACK
 #include "rpc/rpc_error.h"
     STRICT_MODE_ON
+
+#include <boost/bind.hpp>
 
 #include "airsim_settings_parser.h"
 #include "common/AirSimSettings.hpp"
@@ -28,6 +31,11 @@ STRICT_MODE_OFF //todo what does this do?
 #include <airsim_interfaces/msg/car_controls.hpp>
 #include <airsim_interfaces/msg/car_state.hpp>
 #include <airsim_interfaces/msg/environment.hpp>
+
+#include <airsim_interfaces/msg/pwm_cmd.hpp>
+#include <airsim_interfaces/msg/current_dist.hpp>
+#include <std_msgs/msg/float64_multi_array.hpp>
+
 #include <chrono>
 #include <cv_bridge/cv_bridge.h>
 #include <geometry_msgs/msg/pose_stamped.hpp>
@@ -54,7 +62,7 @@ STRICT_MODE_OFF //todo what does this do?
 #include <std_srvs/srv/empty.hpp>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2/LinearMath/Quaternion.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/static_transform_broadcaster.h>
 #include <tf2_ros/transform_broadcaster.h>
@@ -192,8 +200,8 @@ private:
         rclcpp::Subscription<airsim_interfaces::msg::VelCmd>::SharedPtr vel_cmd_world_frame_sub_;
 	
 	//Rov sensors
-	rclcpp::Subscription<airsim_interfaces::msg::PwmCmd>::SharedPtr vel_cmd_body_frame_sub_;
-        rclcpp::Subscription<airsim_interfaces::msg::CurrentDist>::SharedPtr vel_cmd_world_frame_sub_;
+	rclcpp::Subscription<airsim_interfaces::msg::PwmCmd>::SharedPtr pwm_cmd_sub;
+        rclcpp::Subscription<airsim_interfaces::msg::CurrentDist>::SharedPtr current_dist_sub;
 
         rclcpp::Service<airsim_interfaces::srv::Takeoff>::SharedPtr takeoff_srvr_;
         rclcpp::Service<airsim_interfaces::srv::Land>::SharedPtr land_srvr_;

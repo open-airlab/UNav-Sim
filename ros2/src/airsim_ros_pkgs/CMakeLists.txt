@@ -25,6 +25,7 @@ find_package(OpenCV REQUIRED)
 
 set(AIRSIM_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../../../)
 
+
 add_subdirectory("${AIRSIM_ROOT}/cmake/rpclib_wrapper" rpclib_wrapper)
 add_subdirectory("${AIRSIM_ROOT}/cmake/AirLib" AirLib)
 add_subdirectory("${AIRSIM_ROOT}/cmake/MavLinkCom" MavLinkCom)
@@ -59,6 +60,9 @@ ament_target_dependencies(pd_position_controller_simple
   nav_msgs
   geometry_msgs
   airsim_interfaces
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 add_library(airsim_ros src/airsim_ros_wrapper.cpp)
@@ -72,6 +76,11 @@ ament_target_dependencies(airsim_ros
   tf2_ros
   cv_bridge
   airsim_interfaces
+  mavros_msgs
+  std_srvs
+  tf2_geometry_msgs
+  tf2_sensor_msgs
+  tf2
 )
 
 add_executable(airsim_node src/airsim_node.cpp)
@@ -86,6 +95,10 @@ target_link_libraries(pd_position_controller_simple_node
   pd_position_controller_simple airsim_ros AirLib)
 ament_target_dependencies(pd_position_controller_simple_node 
   rclcpp
+  mavros_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
 )
 
 # rosidl_target_interfaces(airsim_node

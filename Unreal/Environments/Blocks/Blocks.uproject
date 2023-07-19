@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.1",
+	"EngineAssociation": "{B740B372-B958-49A0-A6FC-8AE541BB6209}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -14,10 +14,6 @@
 		}
 	],
 	"Plugins": [
-		{
-			"Name": "AirSim",
-			"Enabled": true
-		},
 		{
 			"Name": "SteamVR",
 			"Enabled": false

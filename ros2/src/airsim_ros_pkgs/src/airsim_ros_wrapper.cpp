@@ -1,6 +1,6 @@
 #include <airsim_ros_wrapper.h>
 #include "common/AirSimSettings.hpp"
-#include <tf2_sensor_msgs/tf2_sensor_msgs.h>
+#include <tf2_sensor_msgs/tf2_sensor_msgs.hpp>
 
 using namespace std::placeholders;
 
@@ -167,11 +167,11 @@ void AirsimROSWrapper::create_ros_pubs_from_settings_json()
             std::function<void(const airsim_interfaces::msg::VelCmd::SharedPtr)> fcn_vel_cmd_body_frame_sub = std::bind(&AirsimROSWrapper::vel_cmd_body_frame_cb, this, _1, vehicle_ros->vehicle_name_);
             drone->vel_cmd_body_frame_sub_ = nh_->create_subscription<airsim_interfaces::msg::VelCmd>(topic_prefix + "/vel_cmd_body_frame", 1, fcn_vel_cmd_body_frame_sub); // todo ros::TransportHints().tcpNoDelay();
 
-	    std::function<void(const airsim_interfaces::msg::PwmCmd::SharedPtr)> fcn_pwd_cmd_sub = boost::bind(&AirsimROSWrapper::pwm_cmd_cb, this, _1, vehicle_ros->vehicle_name_)
-	    drone->pwm_cmd_sub = nh_.create_subscription<airsim_interfaces::msg::PwmCmd>(topic_prefix + "/pwm_cmd", 1, fcn_pwd_cmd_sub);
+	    std::function<void(const airsim_interfaces::msg::PwmCmd::SharedPtr)> fcn_pwd_cmd_sub = std::bind(&AirsimROSWrapper::pwm_cmd_cb, this, _1, vehicle_ros->vehicle_name_);
+	    drone->pwm_cmd_sub = nh_->create_subscription<airsim_interfaces::msg::PwmCmd>(topic_prefix + "/pwm_cmd", 1, fcn_pwd_cmd_sub);
 
-	    std::function<void(const airsim_interfaces::msg::CurrentDist::SharedPtr)> fcn_current_dist_sub = boost::bind(&AirsimROSWrapper::current_dist_cb, this, _1, vehicle_ros->vehicle_name_)
-	    drone->current_dist_sub = nh_.create_subscription<airsim_interfaces::msg::CurrentDist>(topic_prefix + "/current_dist", 1, fcn_current_dist_sub);
+	    std::function<void(const airsim_interfaces::msg::CurrentDist::SharedPtr)> fcn_current_dist_sub = std::bind(&AirsimROSWrapper::current_dist_cb, this, _1, vehicle_ros->vehicle_name_);
+	    drone->current_dist_sub = nh_->create_subscription<airsim_interfaces::msg::CurrentDist>(topic_prefix + "/current_dist", 1, fcn_current_dist_sub);
 
 
 
@@ -488,17 +488,17 @@ msr::airlib::Pose AirsimROSWrapper::get_airlib_pose(const float& x, const float&
     return msr::airlib::Pose(msr::airlib::Vector3r(x, y, z), airlib_quat);
 }
 
-std_msgs::Float64MultiArray v;
-void AirsimROSWrapper::pwm_cmd_cb(const airsim_ros_pkgs::PwmCmd::ConstPtr& msg, const std::string& vehicle_name)
+std_msgs::msg::Float64MultiArray v;
+void AirsimROSWrapper::pwm_cmd_cb(const airsim_interfaces::msg::PwmCmd::SharedPtr msg, const std::string& vehicle_name)
 {
-    std::lock_guard<std::mutex> guard(drone_control_mutex_);
+    std::lock_guard<std::mutex> guard(control_mutex_);
     auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
     drone->pwm_cmd = msg->pwmvals;
 }
 
-void AirsimROSWrapper::current_dist_cb(const airsim_ros_pkgs::CurrentDist::ConstPtr& msg, const std::string& vehicle_name)
+void AirsimROSWrapper::current_dist_cb(const airsim_interfaces::msg::CurrentDist::SharedPtr msg, const std::string& vehicle_name)
 {
-    std::lock_guard<std::mutex> guard(drone_control_mutex_);
+    std::lock_guard<std::mutex> guard(control_mutex_);
     auto drone = static_cast<RovROS*>(vehicle_name_ptr_map_[vehicle_name].get());
     drone->current_dist = Vector3r(msg->currentval[0],msg->currentval[1],msg->currentval[2]);
 }
@@ -661,6 +661,11 @@ nav_msgs::msg::Odometry AirsimROSWrapper::get_odom_msg_from_car_state(const msr:
 }
 
 nav_msgs::msg::Odometry AirsimROSWrapper::get_odom_msg_from_multirotor_state(const msr::airlib::MultirotorState& drone_state) const
+{
+    return get_odom_msg_from_kinematic_state(drone_state.kinematics_estimated);
+}
+
+nav_msgs::msg::Odometry AirsimROSWrapper::get_odom_msg_from_rov_state(const msr::airlib::RovState& drone_state) const
 {
     return get_odom_msg_from_kinematic_state(drone_state.kinematics_estimated);
 }

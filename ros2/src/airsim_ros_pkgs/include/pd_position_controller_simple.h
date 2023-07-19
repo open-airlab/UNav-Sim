@@ -12,12 +12,12 @@ STRICT_MODE_OFF //todo what does this do?
 #include "common/common_utils/FileSystem.hpp"
 #include "vehicles/multirotor/api/MultirotorRpcLibClient.hpp"
 #include "vehicles/rov/api/RovRpcLibClient.hpp"
-#include "common/GeodeticConverter.hpp"
+// #include "common/GeodeticConverter.hpp"
 
 #include <rclcpp/rclcpp.hpp>
 #include <tf2/LinearMath/Matrix3x3.h>
 #include <tf2/LinearMath/Quaternion.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 #include <math.h>
 #include <airsim_interfaces/msg/vel_cmd.hpp>
@@ -101,9 +101,10 @@ public:
     void enforce_dynamic_constraints();
     void publish_control_cmd();
     void check_reached_goal();
+    
 
 private:
-    msr::airlib::GeodeticConverter geodetic_converter_;
+    geodetic_converter::GeodeticConverter geodetic_converter_;
     const bool use_eth_lib_for_geodetic_conv_;
 
     const std::shared_ptr<rclcpp::Node> nh_;

@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": "Blocks",
+			"path": "."
+		},
+		{
+			"name": "UE5",
+			"path": "/home/olaya/dev/UnrealEngine5"
+		}
+	],
+	"settings":
+	{
+		"typescript.tsc.autoDetect": "off"
+	},
+	"extensions":
+	{
+		"recommendations": [
+			"ms-vscode.cpptools",
+			"ms-dotnettools.csharp",
+			"vadimcn.vscode-lldb",
+			"ms-vscode.mono-debug",
+			"dfarley1.file-picker"
+		]
+	},
+	"EngineAssociation": "{B740B372-B958-49A0-A6FC-8AE541BB6209}"
+}
