@@ -18,7 +18,9 @@ Discover a wide range of possibilities with UNav-Sim, from exploring underwater 
 
 # Index 
  [1. Installation](https://github.com/open-airlab/UNav-Sim#1-installation)
+ 
  [2. Running the simulation](https://github.com/open-airlab/UNav-Sim#2-running-the-simulation)
+ 
  [3. UNav-Sim ros navigation stack](https://github.com/open-airlab/UNav-Sim#3-unav-sim-ros-navigation-stack-coming-soon)
 
 # 1. Installation
