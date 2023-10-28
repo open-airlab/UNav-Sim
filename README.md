@@ -79,5 +79,18 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 ## UNav-Sim Documentation (COMING SOON)
 Details will be uploaded soon with the submitted paper for publication
 
+
+# Citation
+If you use this framework in your work, please cite the following paper:
+>  Amer, Abdelhakim, Olaya Álvarez-Tuñón, Halil Ibrahim Ugurlu, Jonas le Fevre Sejersen, Yury Brodskiy, and Erdal Kayacan. (2023). *UNav-Sim: A Visually Realistic Underwater Robotics Simulator and Synthetic Data-generation Framework.* arXiv preprint arXiv:2310.11927.
+
+
+
 ## **⭐ Please star this repository if you find it useful! ⭐**
 Thank you for using this project! 🌟
+
+
+
+
+
+
