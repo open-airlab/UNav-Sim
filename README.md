@@ -81,9 +81,18 @@ Details will be uploaded soon with the submitted paper for publication
 
 
 # Citation
-If you use this framework in your work, please cite the following paper:
->  Amer, Abdelhakim, Olaya Álvarez-Tuñón, Halil Ibrahim Ugurlu, Jonas le Fevre Sejersen, Yury Brodskiy, and Erdal Kayacan. (2023). *UNav-Sim: A Visually Realistic Underwater Robotics Simulator and Synthetic Data-generation Framework.* arXiv preprint arXiv:2310.11927.
+If you use this framework in your work, please cite the following paper:[Link to paper](https://ieeexplore.ieee.org/document/10406819) 
 
+```bash
+@inproceedings{amer2023unav,
+  title={UNav-Sim: A Visually Realistic Underwater Robotics Simulator and Synthetic Data-generation Framework},
+  author={Amer, Abdelhakim and {\'A}lvarez-Tu{\~n}{\'o}n, Olaya and U{\u{g}}urlu, Halil {\.I}brahim and Sejersen, Jonas Le Fevre and Brodskiy, Yury and Kayacan, Erdal},
+  booktitle={2023 21st International Conference on Advanced Robotics (ICAR)},
+  pages={570--576},
+  year={2023},
+  organization={IEEE}
+}
+```
 
 
 ## **⭐ Please star this repository if you find it useful! ⭐**
