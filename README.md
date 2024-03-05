@@ -76,9 +76,8 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 ....
 
 
-## UNav-Sim Documentation (COMING SOON)
-Details will be uploaded soon with the submitted paper for publication
-
+## UNav-Sim Documentation
+[Link to paper](https://ieeexplore.ieee.org/document/10406819) 
 
 # Citation
 If you use this framework in your work, please cite the following paper:[Link to paper](https://ieeexplore.ieee.org/document/10406819) 
