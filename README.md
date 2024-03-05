@@ -23,6 +23,8 @@ Discover a wide range of possibilities with UNav-Sim, from exploring underwater 
  
  [3. UNav-Sim ros navigation stack](https://github.com/open-airlab/UNav-Sim#3-unav-sim-ros-navigation-stack-coming-soon)
 
+ [4. UNav-Sim documentation](https://github.com/open-airlab/UNav-Sim#4-UNav-Sim-documentation)
+
 # 1. Installation
 UNav-Sim relies in Unreal Engine 5 for generating realistic renderings. First, install UE5 and then proceed to install UNav-Sim
 
@@ -76,7 +78,7 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 ....
 
 
-# 4. UNav-Sim Documentation
+# 4. UNav-Sim documentation
 [Link to paper](https://ieeexplore.ieee.org/document/10406819) 
 
 ## Citation
