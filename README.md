@@ -76,10 +76,10 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 ....
 
 
-## UNav-Sim Documentation
+# 4. UNav-Sim Documentation
 [Link to paper](https://ieeexplore.ieee.org/document/10406819) 
 
-# Citation
+## Citation
 If you use this framework in your work, please cite the following paper:[Link to paper](https://ieeexplore.ieee.org/document/10406819) 
 
 ```bash
@@ -94,7 +94,7 @@ If you use this framework in your work, please cite the following paper:[Link to
 ```
 
 
-## **⭐ Please star this repository if you find it useful! ⭐**
+### **⭐ Please star this repository if you find it useful! ⭐**
 Thank you for using this project! 🌟
 
 
