@@ -9,6 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AirLib", "AirLib\AirLib.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloDrone", "HelloDrone\HelloDrone.vcxproj", "{98BB426F-6FB5-4754-81BC-BB481900E135}"
 EndProject
+
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HelloRov", "HelloRov\HelloRov.vcxproj", "{98BB426F-6FB5-4754-81BC-BB481900E135}"
+EndProject
+
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MavLinkCom", "MavLinkCom\MavLinkCom.vcxproj", "{8510C7A4-BF63-41D2-94F6-D8731D137A5A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DroneServer", "DroneServer\DroneServer.vcxproj", "{A050F015-87E2-498F-866A-2E5AF65AF7AC}"

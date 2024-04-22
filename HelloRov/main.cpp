@@ -1,153 +1,118 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+/*
+    Circular Trajectory Following Controller
 
-#include "common/common_utils/StrictMode.hpp"
-STRICT_MODE_OFF
-#ifndef RPCLIB_MSGPACK
-#define RPCLIB_MSGPACK clmdep_msgpack
-#endif // !RPCLIB_MSGPACK
-#include "rpc/rpc_error.h"
-STRICT_MODE_ON
+    This program implements a controller for an ROV (Remotely Operated Vehicle) to follow a circular trajectory.
+    It utilizes the AirSim API for communication with the ROV, and Eigen library for mathematical operations.
+
+    Circular trajectory parameters:
+    - Radius of the circle: 1.0
+    - Angular velocity: 0.05 radians per second
+    - Fixed altitude: 1.0
+    - Fixed yaw angle: 0.0
+
+    The controller generates a reference vector for the ROV based on the circular trajectory parameters.
+    It calculates the control signal (wrench) using a proportional (P) controller to minimize the error between the reference
+    position and the actual ROV state. The control signal is then converted into PWM signals for the motors
+    and sent to the ROV for execution.
+
+    Author: Hakim Amer 
+    Date: 22/4/2024
+*/
+
+
 
 #include "vehicles/rov/api/RovRpcLibClient.hpp"
 #include "common/common_utils/FileSystem.hpp"
-#include <iostream>
-#include <chrono>
+#include "rov_control.hpp"
+
+
+
+// Function to generate reference vector for circular trajectory
+Eigen::Vector4d generateReference(double time)
+{
+    // Define circular trajectory parameters
+    double radius = 1.0; // Radius of the circle
+    double angular_velocity = 0.05; // Angular velocity (radians per second)
+
+    // Compute reference position on the circular trajectory
+    double ref_x = radius * cos(angular_velocity * time);
+    double ref_y = radius * sin(angular_velocity * time);
+    double ref_z = 1.0; // Fixed altitude
+    double ref_yaw = 0.0; // Fixed yaw angle
+
+    // Construct and return the reference vector
+    return Eigen::Vector4d(ref_x, ref_y, ref_z, ref_yaw);
+}
+
+
+
+
+
+msr::airlib::vector<float> calculatePWM(Eigen::VectorXd wrench)
+{
+    // Define A matrix
+    Eigen::Matrix<double, 4, 8> A;
+    A << 0.0, 0.0, 0.0, 0.0, 0.5, 0.5, -0.5, -0.5,     //Thrust allocation matrix of bluerov2 heavy
+        0.0, 0.0, 0.0, 0.0, -0.5, 0.5, 0.5, -0.5,
+        1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0, 0.0, 0.1, -0.1, 0.1, -0.1;
+
+    std::vector<double> pwm_out(8);
+
+
+    // Construct vector v from wrench values
+    Eigen::Vector4d v;
+    v << wrench(0), wrench(1), wrench(2), wrench(3);
+
+    
+    Eigen::MatrixXd pwm_vector = (A.transpose() * A).ldlt().solve(A.transpose() * v);
+
+    pwm_vector /= 40.0;  //scale pwm signal
+
+    msr::airlib::vector<float> vect{ static_cast<float>(pwm_vector(0)),
+      static_cast<float>(pwm_vector(1)),
+       static_cast<float>(pwm_vector(2)),
+      static_cast<float>(pwm_vector(3)), static_cast<float>(pwm_vector(4)),
+        static_cast<float>(pwm_vector(5)), static_cast<float>(pwm_vector(6)),
+        static_cast<float>(pwm_vector(7)) };
+        
+    //msr::airlib::vector<float> vect{ -0.5f, -0.5f, -0.5f, -0.5f, 0.05f, 0.05f, 0.05f, 0.05f };
+
+    return vect;
+}
 
 int main()
 {
-    using namespace msr::airlib;
 
     msr::airlib::RovRpcLibClient client;
-     
-    typedef ImageCaptureBase::ImageRequest ImageRequest;
-    typedef ImageCaptureBase::ImageResponse ImageResponse;
-    typedef ImageCaptureBase::ImageType ImageType;
-    typedef common_utils::FileSystem FileSystem;
+    client.enableApiControl(true);
+    client.armDisarm(true);
+    client.confirmConnection();
+    double time = 0.0; // Initialize time variable
 
-    /*
-    try {
-        client.confirmConnection();
+    while (true) {
+        // Generate reference vector based on time
+        Eigen::Vector4d reference = generateReference(time);
 
-        std::cout << "Press Enter to get FPV image" << std::endl;
-        std::cin.get();
-        vector<ImageRequest> request = { ImageRequest("0", ImageType::Scene), ImageRequest("1", ImageType::DepthPlanar, true) };
-        const vector<ImageResponse>& response = client.simGetImages(request);
-        std::cout << "# of images received: " << response.size() << std::endl;
+        // Create an instance of RovControl with the generated reference
+        RovControl rov_controller(client, reference);
 
-        if (response.size() > 0) {
-            std::cout << "Enter path with ending separator to save images (leave empty for no save)" << std::endl;
-            std::string path;
-            std::getline(std::cin, path);
+        // Call the calculate_wrench method to get the control signal
+        Eigen::Vector4d wrench = rov_controller.calculate_wrench();
 
-            for (const ImageResponse& image_info : response) {
-                std::cout << "Image uint8 size: " << image_info.image_data_uint8.size() << std::endl;
-                std::cout << "Image float size: " << image_info.image_data_float.size() << std::endl;
+        // Calculate PWM signals from the control signal
+        msr::airlib::vector<float> pwm = calculatePWM(wrench);
 
-                if (path != "") {
-                    std::string file_path = FileSystem::combine(path, std::to_string(image_info.time_stamp));
-                    if (image_info.pixels_as_float) {
-                        Utils::writePFMfile(image_info.image_data_float.data(), image_info.width, image_info.height, file_path + ".pfm");
-                    }
-                    else {
-                        std::ofstream file(file_path + ".png", std::ios::binary);
-                        file.write(reinterpret_cast<const char*>(image_info.image_data_uint8.data()), image_info.image_data_uint8.size());
-                        file.close();
-                    }
-                }
-            }
-        }
-   */
-   
-  
+        // Set the duration for which the PWM signals will be applied
+        const float duration = 0.01f;
 
-        client.enableApiControl(true);
-        client.armDisarm(true);
+        // Send PWM signals to the ROV asynchronously
+        client.moveByMotorPWMsAsync(pwm, duration);
 
-        auto barometer_data = client.getBarometerData();
-        std::cout << "Barometer data \n"
-                  << "barometer_data.time_stamp \t" << barometer_data.time_stamp << std::endl
-                  << "barometer_data.altitude \t" << barometer_data.altitude << std::endl
-                  << "barometer_data.pressure \t" << barometer_data.pressure << std::endl
-                  << "barometer_data.qnh \t" << barometer_data.qnh << std::endl;
-
-        auto imu_data = client.getImuData();
-        std::cout << "IMU data \n"
-                  << "imu_data.time_stamp \t" << imu_data.time_stamp << std::endl
-                  << "imu_data.orientation \t" << imu_data.orientation << std::endl
-                  << "imu_data.angular_velocity \t" << imu_data.angular_velocity << std::endl
-                  << "imu_data.linear_acceleration \t" << imu_data.linear_acceleration << std::endl;
-
-        auto gps_data = client.getGpsData();
-        std::cout << "GPS data \n"
-                  << "gps_data.time_stamp \t" << gps_data.time_stamp << std::endl
-                  << "gps_data.gnss.time_utc \t" << gps_data.gnss.time_utc << std::endl
-                  << "gps_data.gnss.geo_point \t" << gps_data.gnss.geo_point << std::endl
-                  << "gps_data.gnss.eph \t" << gps_data.gnss.eph << std::endl
-                  << "gps_data.gnss.epv \t" << gps_data.gnss.epv << std::endl
-                  << "gps_data.gnss.velocity \t" << gps_data.gnss.velocity << std::endl
-                  << "gps_data.gnss.fix_type \t" << gps_data.gnss.fix_type << std::endl;
-
-        auto magnetometer_data = client.getMagnetometerData();
-        std::cout << "Magnetometer data \n"
-                  << "magnetometer_data.time_stamp \t" << magnetometer_data.time_stamp << std::endl
-                  << "magnetometer_data.magnetic_field_body \t" << magnetometer_data.magnetic_field_body << std::endl;
-        // << "magnetometer_data.magnetic_field_covariance" << magnetometer_data.magnetic_field_covariance // not implemented in sensor
-
-
-        float takeoff_timeout = 5;
-        client.takeoffAsync(takeoff_timeout)->waitOnLastTask();
-
-        // switch to explicit hover mode so that this is the fall back when
-        // move* commands are finished.
-        std::this_thread::sleep_for(std::chrono::duration<double>(5));
-        client.hoverAsync()->waitOnLastTask();
-
-
-        // moveByVelocityZ is an offboard operation, so we need to set offboard mode.
-        client.enableApiControl(true);
-
-        auto position = client.getRovState().getPosition();
-        //float z = position.z(); // current position (NED coordinate system).
-        const float speed = 3.0f;
-        const float size = 10.0f;
-        const float duration = size / speed;
-       // DrivetrainType drivetrain = DrivetrainType::ForwardOnly;
-        YawMode yaw_mode(true, 0);
-       
-        vector<float> vect{ 0.1f, 0.1f, 0.1f, 0.1f, 0.05f, 0.05f, 0.05f, 0.05f };
-        while (true) {
-            client.moveByMotorPWMsAsync(vect, duration);
-        }
-        /*
-        std::cout << "moveByVelocityZ(" << speed << ", 0, " << z << "," << duration << ")" << std::endl;
-        client.moveByVelocityZAsync(speed, 0, z, duration, drivetrain, yaw_mode);
-        std::this_thread::sleep_for(std::chrono::duration<double>(duration));
-        std::cout << "moveByVelocityZ(0, " << speed << "," << z << "," << duration << ")" << std::endl;
-        client.moveByVelocityZAsync(0, speed, z, duration, drivetrain, yaw_mode);
-        std::this_thread::sleep_for(std::chrono::duration<double>(duration));
-        std::cout << "moveByVelocityZ(" << -speed << ", 0, " << z << "," << duration << ")" << std::endl;
-        client.moveByVelocityZAsync(-speed, 0, z, duration, drivetrain, yaw_mode);
-        std::this_thread::sleep_for(std::chrono::duration<double>(duration));
-        std::cout << "moveByVelocityZ(0, " << -speed << "," << z << "," << duration << ")" << std::endl;
-        client.moveByVelocityZAsync(0, -speed, z, duration, drivetrain, yaw_mode);
-        std::this_thread::sleep_for(std::chrono::duration<double>(duration));
-        *
-        client.hoverAsync()->waitOnLastTask();
-
-        std::cout << "Press Enter to land" << std::endl;
-        std::cin.get();
-        client.landAsync()->waitOnLastTask();
-
-        std::cout << "Press Enter to disarm" << std::endl;
-        std::cin.get();
-        client.armDisarm(false);
+        // Increment time for the next iteration
+        time += 0.01; // Adjust as needed based on the desired time step
     }
-    catch (rpc::rpc_error& e) {
-        std::string msg = e.get_error().as<std::string>();
-        std::cout << "Exception raised by the API, something went wrong." << std::endl
-                  << msg << std::endl;
-    }
-       */
+
+
     return 0;
 }
