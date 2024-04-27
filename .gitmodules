@@ -1,0 +1,6 @@
+[submodule "ros2/src/robot_visual_localization"]
+	path = ros2/src/robot_visual_localization
+	url = https://github.com/olayasturias/robot_visual_localization.git
+[submodule "ros2/src/UNav-Sim_NMPC"]
+	path = ros2/src/UNav-Sim_NMPC
+	url = https://github.com/abdelhakim96/UNav-Sim_NMPC.git
