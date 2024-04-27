@@ -4,3 +4,6 @@
 [submodule "ros2/src/UNav-Sim_NMPC"]
 	path = ros2/src/UNav-Sim_NMPC
 	url = https://github.com/abdelhakim96/UNav-Sim_NMPC.git
+[submodule "ros/ros/src/UNav-Sim_NMPC"]
+	path = ros/ros/src/UNav-Sim_NMPC
+	url = https://github.com/abdelhakim96/UNav-Sim_NMPC.git
