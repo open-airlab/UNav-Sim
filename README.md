@@ -23,7 +23,7 @@
  
  [3. UNav-Sim ros navigation stack](https://github.com/open-airlab/UNav-Sim#3-unav-sim-ros-navigation-stack)
 
- [4. UNav-Sim documentation](https://github.com/open-airlab/UNav-Sim#4-UNav-Sim-documentation)
+ [4. UNav-Sim documentation](https://github.com/open-airlab/UNav-Sim#4-unav-sim-documentation)
 
 # 1. Installation Instructions (for Ubuntu OS)
 UNav-Sim relies in Unreal Engine 5 for generating realistic renderings. First, install UE5 and then proceed to install UNav-Sim
