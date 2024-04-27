@@ -21,7 +21,7 @@
  
  [2. Running the simulation](https://github.com/open-airlab/UNav-Sim#2-running-the-simulation)
  
- [3. UNav-Sim ros navigation stack](https://github.com/open-airlab/UNav-Sim#3-unav-sim-ros-navigation-stack-coming-soon)
+ [3. UNav-Sim ros navigation stack](https://github.com/open-airlab/UNav-Sim#3-unav-sim-ros-navigation-stack)
 
  [4. UNav-Sim documentation](https://github.com/open-airlab/UNav-Sim#4-UNav-Sim-documentation)
 
