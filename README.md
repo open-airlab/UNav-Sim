@@ -13,7 +13,7 @@
 - **Works on Linux and Windows OS** :heavy_check_mark:
 - **ROS1 and ROS2 support** :heavy_check_mark:
 
-Discover a wide range of possibilities with UNav-Sim, from exploring underwater terrains to designing and testing autonomous underwater vehicles (AUVs). Whether you're a student, researcher, or hobbyist, this powerful tool will accelerate your learning and experimentation process.
+
 
 
 # Index 
@@ -25,7 +25,7 @@ Discover a wide range of possibilities with UNav-Sim, from exploring underwater 
 
  [4. UNav-Sim documentation](https://github.com/open-airlab/UNav-Sim#4-UNav-Sim-documentation)
 
-# 1. Installation
+# 1. Installation Instructions (for Ubuntu OS)
 UNav-Sim relies in Unreal Engine 5 for generating realistic renderings. First, install UE5 and then proceed to install UNav-Sim
 
 ## 1.1. UE5
@@ -74,8 +74,22 @@ right-click on Blocks.uproject, select Unreal Engine Generate Project Files
 ```
 
 
-# 3. UNav-Sim ros navigation stack (COMING SOON)
-....
+# 3. UNav-Sim ros navigation stack 
+The UNav-Sim ROS navigation stack, as detailed in the paper, encompasses various components essential for underwater vehicle navigation. It integrates a Nonlinear Model Predictive Controller (NMPC) tailored for the BlueROV2 Heavy model and a pipe-following path planner. Additionally, the stack incorporates several Visual Simultaneous Localization and Mapping (VSLAM) algorithms.
+
+## Components:
+
+1. **NMPC for BlueROV2 Heavy Model**  
+   Located in the ROS 1 repository, this component provides a Nonlinear Model Predictive Controller (NMPC) specifically designed for the BlueROV2 Heavy model. The controller facilitates precise and dynamic control of the underwater vehicle.  
+   Repository Path: `\UNav-Sim\ros\src\UNav-Sim_NMPC`
+
+2. **Pipe Following Path Planner**  
+   The stack includes a path planner neural network trained for pipe-following task, essential for various underwater inspection and maintenance missions. 
+
+3. **Visual Simultaneous Localization and Mapping (VSLAM) Algorithms**  
+   The UNav-Sim ROS navigation stack incorporates several Visual Simultaneous Localization and Mapping (VSLAM) algorithms. These algorithms enable the vehicle to localize itself in its environment while simultaneously mapping the surroundings using visual sensor data.  
+   Repository Path for ROS 2: `\UNav-Sim\ros2\src\robot_visual_localization`
+
 
 
 # 4. UNav-Sim documentation
