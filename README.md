@@ -14,7 +14,12 @@
 - **ROS1 and ROS2 support** :heavy_check_mark:
 
 
+ ## Example use case: MIMIR Dataset
 
+|    |   |
+:-------------------------:|:-------------------------:
+![](https://github.com/remaro-network/MIMIR-UW/blob/main/media/MIMIR-oceanfloor.gif?raw=true)  |  ![](https://github.com/remaro-network/MIMIR-UW/blob/main/media/MIMIR-seafloor.gif?raw=true) |  
+![](https://github.com/remaro-network/MIMIR-UW/blob/main/media/MIMIR-seaflooralgae.gif?raw=true)  |  ![](https://github.com/remaro-network/MIMIR-UW/blob/main/media/MIMIR-sandpipe.gif?raw=true) |  
 
 # Index 
  [1. Installation](https://github.com/open-airlab/UNav-Sim#1-installation)
