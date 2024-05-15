@@ -14,7 +14,7 @@
 - **ROS1 and ROS2 support** :heavy_check_mark:
 
 
- ## Example use case: MIMIR Dataset
+ ## Example environments: [MIMIR](https://github.com/remaro-network/MIMIR-UW) 
 
 |    |   |
 :-------------------------:|:-------------------------:
@@ -113,6 +113,18 @@ If you use this framework in your work, please cite the following paper:[Link to
   organization={IEEE}
 }
 ```
+
+```bash
+@inproceedings{alvarez2023mimir,
+  title={Mimir-uw: A multipurpose synthetic dataset for underwater navigation and inspection},
+  author={{\'A}lvarez-Tu{\~n}{\'o}n, Olaya and Kanner, Hemanth and Marnet, Luiza Ribeiro and Pham, Huy Xuan and le Fevre Sejersen, Jonas and Brodskiy, Yury and Kayacan, Erdal},
+  booktitle={2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages={6141--6148},
+  year={2023},
+  organization={IEEE}
+}
+```
+
 
 ### **Questions and inquiries**
 For  questions and inquiries please create a GitHub issue and we will try to respond as soon a possible!
