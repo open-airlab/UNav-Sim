@@ -10,7 +10,7 @@
 - **Open-source** :heavy_check_mark:
 - **High-fidelity rendering using Unreal Engine 5** :heavy_check_mark:
 - **Underwater physics and robot models** :heavy_check_mark:
-- **Works on Linux and Windows OS** :heavy_check_mark:
+- **Linux and Windows compatible** :heavy_check_mark:
 - **ROS1 and ROS2 support** :heavy_check_mark:
 
 
