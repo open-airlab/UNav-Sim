@@ -136,7 +136,7 @@ For  questions and inquiries please create a GitHub issue and we will try to res
 ### **⭐ Please star this repository if you find it useful! ⭐**
 Thank you for using this project! 🌟
 
-[![Star History Chart](https://api.star-history.com/svg?repos=open-airlab/UNav-Sim&type=Date)](https://star-history.com/#open-airlab/UNav-Sim&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=UNav-Sim&type=Date)](https://star-history.com/#open-airlab/UNav-Sim&Date)
 
 
 
